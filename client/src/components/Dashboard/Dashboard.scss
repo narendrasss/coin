@@ -1,0 +1,30 @@
+@import '../../styles/settings';
+
+.Dashboard__goal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Dashboard__info {
+  background: #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Dashboard__category {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Dashboard__graph {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background: $secondary;
+}
+
+.opaque {
+  opacity: 0.5;
+}
