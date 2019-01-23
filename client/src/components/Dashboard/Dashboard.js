@@ -4,10 +4,8 @@ import './Dashboard.scss';
 
 const Dashboard = props => {
   const { funds, goal, budget } = props;
-  const { total } = budget;
-  let { categories } = budget;
+  const { total, categories } = budget;
 
-  if (!categories) categories = [];
   const expense = categories.reduce((acc, ctg) => acc + ctg.spent, 0);
 
   return (

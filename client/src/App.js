@@ -8,7 +8,10 @@ class App extends Component {
   state = {
     funds: 0,
     goal: 0,
-    budget: {}
+    budget: {
+      total: 0,
+      categories: []
+    }
   };
 
   componentDidMount() {

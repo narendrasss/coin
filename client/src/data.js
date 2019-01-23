@@ -18,13 +18,13 @@ const data = {
             _id: 1,
             vendor: 'Starbucks',
             amount: 5.25,
-            date: '22-01-2019'
+            date: '22 Jan 2019'
           },
           {
             _id: 2,
             vendor: 'Tim Hortons',
             amount: 10.0,
-            date: '19-01-2019'
+            date: '19 Jan 2019'
           }
         ]
       },
@@ -37,7 +37,7 @@ const data = {
             _id: 3,
             vendor: 'Oak & Fort',
             amount: 50.0,
-            date: '19-01-2019'
+            date: '19 Jan 2019'
           }
         ]
       }
