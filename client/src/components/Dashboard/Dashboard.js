@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
 import './Dashboard.scss';
+import DashboardGraph from './DashboardGraph/DashboardGraph';
 
 const Dashboard = props => {
   const { funds, goal, categories } = props;
@@ -25,17 +26,7 @@ const Dashboard = props => {
       <div className="Dashboard__info">
         <p className="opaque">{new Date().toDateString()}</p>
         <p>{total - expense} remaining in budget.</p>
-        <div className="Dashboard__graph" />
-        {categories.map(ctg => {
-          const { name, amount, spent } = ctg;
-          return (
-            <div key={name} className="Dashboard__category">
-              <p>{(amount / total) * 100}%</p>
-              <p>{name}</p>
-              <p>${spent} spent</p>
-            </div>
-          );
-        })}
+        <DashboardGraph total={total} categories={categories} />
       </div>
       <ExpenseCalculator categories={categories} />
     </div>
