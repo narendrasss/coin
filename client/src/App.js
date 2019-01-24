@@ -6,24 +6,24 @@ import Dashboard from './components/Dashboard/Dashboard';
 
 class App extends Component {
   state = {
+    name: '',
+    income: 0,
     funds: 0,
     goal: 0,
-    budget: {
-      total: 0,
-      categories: []
-    }
+    fixedExpenses: [],
+    categories: []
   };
 
   componentDidMount() {
-    const { funds, goal, budget } = data;
-    this.setState({ funds, goal, budget });
+    const { name, income, funds, goal, fixedExpenses, categories } = data;
+    this.setState({ name, income, funds, goal, fixedExpenses, categories });
   }
 
   render() {
-    const { funds, goal, budget } = this.state;
+    const { funds, goal, categories } = this.state;
     return (
       <Router>
-        <Dashboard path="/" funds={funds} goal={goal} budget={budget} />
+        <Dashboard path="/" funds={funds} goal={goal} categories={categories} />
       </Router>
     );
   }

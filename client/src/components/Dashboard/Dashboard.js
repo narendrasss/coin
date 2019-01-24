@@ -3,10 +3,17 @@ import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
 import './Dashboard.scss';
 
 const Dashboard = props => {
-  const { funds, goal, budget } = props;
-  const { total, categories } = budget;
+  const { funds, goal, categories } = props;
 
-  const expense = categories.reduce((acc, ctg) => acc + ctg.spent, 0);
+  const total = categories.reduce((acc, ctg) => acc + ctg.amount, 0);
+
+  const expense = categories
+    .reduce((acc, ctg) => [...acc, ...ctg.transactions], [])
+    .reduce((acc, tr) => acc + tr.amount, 0);
+
+  for (const ctg of categories) {
+    ctg.spent = ctg.transactions.reduce((acc, tr) => acc + tr.amount, 0);
+  }
 
   return (
     <div className="Dashboard">

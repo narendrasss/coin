@@ -4,28 +4,34 @@ import Moment from 'moment';
 class ExpenseCalculator extends Component {
   state = {
     vendor: '',
-    period: 'Last Month',
+    period: 'In the last month',
     result: 0
   };
 
   handleVendorChange = event => {
-    this.setState({
-      vendor: event.target.value
-    });
+    this.setState(
+      {
+        vendor: event.target.value
+      },
+      this.getResult
+    );
   };
 
   handlePeriodChange = event => {
-    this.setState({
-      period: event.target.value
-    });
+    this.setState(
+      {
+        period: event.target.value
+      },
+      this.getResult
+    );
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
+  getResult = () => {
     const { vendor, period } = this.state;
     const { categories } = this.props;
 
-    const time = period.split(' ')[1];
+    const query = period.split(' ');
+    const time = query[query.length - 1];
     const min = Moment().subtract(1, time);
 
     const transactions = categories
@@ -33,7 +39,7 @@ class ExpenseCalculator extends Component {
       .filter(tr => tr.vendor === vendor);
 
     const result = transactions
-      .filter(tr => Moment(tr.date).isAfter(min))
+      .filter(tr => Moment(tr.date, 'DD-MM-YYYY').isAfter(min))
       .reduce((acc, tr) => acc + tr.amount, 0);
 
     this.setState({ result });
@@ -42,22 +48,22 @@ class ExpenseCalculator extends Component {
   render() {
     const { vendor, period, result } = this.state;
     const { categories } = this.props;
-    const periodOptions = ['Last Day', 'Last Month', 'Last Year'];
-    const vendorOptions = categories
-      .reduce((acc, ctg) => [...acc, ...ctg.transactions], [])
-      .map(tr => tr.vendor);
+    const periodOptions = ['In the last day', 'In the last month', 'In the last year'];
+    const vendorOptions = [
+      ...new Set(
+        categories.reduce((acc, ctg) => [...acc, ...ctg.transactions], []).map(tr => tr.vendor)
+      )
+    ];
     return (
       <div className="ExpenseCalculator">
         <form className="Expense__inputs">
           <label htmlFor="vendor">
-            Vendor
             <select
               id="vendor"
               value={vendor}
               onChange={this.handleVendorChange}
               onBlur={this.handleVendorChange}
             >
-              <option />
               {vendorOptions.map(vendorName => (
                 <option key={vendorName} value={vendorName}>
                   {vendorName}
@@ -66,7 +72,6 @@ class ExpenseCalculator extends Component {
             </select>
           </label>
           <label htmlFor="period">
-            Period
             <select
               id="period"
               value={period}
@@ -80,9 +85,6 @@ class ExpenseCalculator extends Component {
               ))}
             </select>
           </label>
-          <button type="submit" onClick={this.handleSubmit}>
-            Submit
-          </button>
         </form>
         <div>
           <p>You spent:</p>
