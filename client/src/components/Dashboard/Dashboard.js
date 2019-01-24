@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
 import './Dashboard.scss';
 
@@ -39,6 +40,31 @@ const Dashboard = props => {
       <ExpenseCalculator categories={categories} />
     </div>
   );
+};
+
+Dashboard.propTypes = {
+  funds: PropTypes.number,
+  goal: PropTypes.number,
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      amount: PropTypes.number,
+      transactions: PropTypes.arrayOf(
+        PropTypes.shape({
+          _id: PropTypes.number,
+          vendor: PropTypes.string,
+          amount: PropTypes.number,
+          date: PropTypes.string
+        })
+      )
+    })
+  )
+};
+
+Dashboard.defaultProps = {
+  funds: 0,
+  goal: 0,
+  categories: []
 };
 
 export default Dashboard;
