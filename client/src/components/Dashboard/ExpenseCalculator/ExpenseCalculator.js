@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Moment from 'moment';
+import DropDown from '../../DropDown/DropDown';
 
 class ExpenseCalculator extends Component {
   state = {
@@ -45,46 +47,22 @@ class ExpenseCalculator extends Component {
     this.setState({ result });
   };
 
+  getVendorOptions = categories => [
+    ...new Set(
+      categories.reduce((acc, ctg) => [...acc, ...ctg.transactions], []).map(tr => tr.vendor)
+    )
+  ];
+
   render() {
     const { vendor, period, result } = this.state;
     const { categories } = this.props;
     const periodOptions = ['In the last day', 'In the last month', 'In the last year'];
-    const vendorOptions = [
-      ...new Set(
-        categories.reduce((acc, ctg) => [...acc, ...ctg.transactions], []).map(tr => tr.vendor)
-      )
-    ];
+    const vendorOptions = this.getVendorOptions(categories);
     return (
       <div className="ExpenseCalculator">
         <form className="Expense__inputs">
-          <label htmlFor="vendor">
-            <select
-              id="vendor"
-              value={vendor}
-              onChange={this.handleVendorChange}
-              onBlur={this.handleVendorChange}
-            >
-              {vendorOptions.map(vendorName => (
-                <option key={vendorName} value={vendorName}>
-                  {vendorName}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="period">
-            <select
-              id="period"
-              value={period}
-              onChange={this.handlePeriodChange}
-              onBlur={this.handlePeriodChange}
-            >
-              {periodOptions.map(periodName => (
-                <option key={periodName} value={periodName}>
-                  {periodName}
-                </option>
-              ))}
-            </select>
-          </label>
+          <DropDown name={vendor} change={this.handleVendorChange} options={vendorOptions} />
+          <DropDown name={period} change={this.handlePeriodChange} options={periodOptions} />
         </form>
         <div>
           <p>You spent:</p>
@@ -94,5 +72,22 @@ class ExpenseCalculator extends Component {
     );
   }
 }
+
+ExpenseCalculator.propTypes = {
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      amount: PropTypes.number,
+      transactions: PropTypes.arrayOf(
+        PropTypes.shape({
+          _id: PropTypes.number,
+          vendor: PropTypes.string,
+          amount: PropTypes.number,
+          date: PropTypes.string
+        })
+      )
+    })
+  ).isRequired
+};
 
 export default ExpenseCalculator;
