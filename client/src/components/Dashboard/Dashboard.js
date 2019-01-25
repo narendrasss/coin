@@ -4,6 +4,8 @@ import Moment from 'moment';
 
 import DashboardGraph from './DashboardGraph/DashboardGraph';
 import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
+import Button from '../Button/Button';
+
 import './Dashboard.scss';
 
 const Dashboard = props => {
@@ -24,6 +26,7 @@ const Dashboard = props => {
       <header className="Dashboard__goal">
         <h1>${goal - funds}</h1>
         <p>Left until you reach your goal!</p>
+        <Button to="/" text="View my budget" />
       </header>
       <div className="Dashboard__info">
         <p className="opaque">{Moment().format('MMMM DD, YYYY')}</p>
