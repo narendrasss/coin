@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import CategoryBar from './CategoryBar/CategoryBar';
 
+import './DashboardGraph.scss';
+
 class DashboardGraph extends Component {
   getCategoryEl = category => {
     const { total } = this.props;
