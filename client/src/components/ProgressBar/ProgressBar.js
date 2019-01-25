@@ -6,7 +6,7 @@ import './ProgressBar.scss';
 const ProgressBar = props => {
   const { percentage } = props;
   const style = {
-    transform: `scaleX(${percentage / 100})`
+    transform: `scaleX(${percentage})`
   };
   return (
     <div className="ProgressBar">

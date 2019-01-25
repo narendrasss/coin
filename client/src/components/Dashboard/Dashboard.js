@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import DashboardGraph from './DashboardGraph/DashboardGraph';
 import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
 import './Dashboard.scss';
-import DashboardGraph from './DashboardGraph/DashboardGraph';
 
 const Dashboard = props => {
   const { funds, goal, categories } = props;
