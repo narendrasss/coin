@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Button from '../../Button/Button';
 import CategoryBar from './CategoryBar/CategoryBar';
 import './DashboardGraph.scss';
 
@@ -20,6 +21,8 @@ class DashboardGraph extends Component {
       <div className="DashboardGraph">
         <div className="Dashboard__graph" />
         {categories.map(this.getCategoryEl)}
+        <Button to="/">See all categories</Button>
+        <Button to="/">Add new expense</Button>
       </div>
     );
   }

@@ -5,17 +5,17 @@ import { Link } from '@reach/router';
 import './Button.scss';
 
 const Button = props => {
-  const { to, text } = props;
+  const { to, children } = props;
   return (
     <Link to={to}>
-      <div className="Button">{text}</div>
+      <div className="Button">{children}</div>
     </Link>
   );
 };
 
 Button.propTypes = {
   to: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
+  children: PropTypes.node.isRequired
 };
 
 export default Button;

@@ -26,7 +26,7 @@ const Dashboard = props => {
       <header className="Dashboard__goal">
         <h1>${goal - funds}</h1>
         <p>Left until you reach your goal!</p>
-        <Button to="/" text="View my budget" />
+        <Button to="/">View my budget</Button>
       </header>
       <div className="Dashboard__info">
         <p className="opaque">{Moment().format('MMMM DD, YYYY')}</p>
