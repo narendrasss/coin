@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Moment from 'moment';
 
 import DashboardGraph from './DashboardGraph/DashboardGraph';
 import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
@@ -25,7 +26,7 @@ const Dashboard = props => {
         <p>Left until you reach your goal!</p>
       </header>
       <div className="Dashboard__info">
-        <p className="opaque">{new Date().toDateString()}</p>
+        <p className="opaque">{Moment().format('MMMM DD, YYYY')}</p>
         <p>{total - expense} remaining in budget.</p>
         <DashboardGraph total={total} categories={categories} />
       </div>
