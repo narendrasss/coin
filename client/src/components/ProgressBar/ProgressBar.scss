@@ -1,16 +1,37 @@
 @import '../../styles/settings';
 
 .ProgressBar {
-  width: 100%;
+  width: 40%;
   height: 1rem;
   background: #e0e0e2;
   border-radius: 0.5rem;
+  margin-right: 1rem;
 }
 
 .Progress {
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.bar {
   height: 100%;
   width: 100%;
   background: $secondary;
-  transform-origin: left;
-  border-radius: inherit;
+  border-radius: 0;
+}
+
+.Progress__circle {
+  width: 0.5rem;
+  height: 100%;
+  background: $secondary;
+}
+
+.Progress__circle--left {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.Progress__circle--right {
+  border-radius: 0 0.5rem 0.5rem 0;
 }

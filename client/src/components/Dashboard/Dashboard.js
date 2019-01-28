@@ -24,13 +24,16 @@ const Dashboard = props => {
   return (
     <div className="Dashboard">
       <header className="Dashboard__goal">
-        <h1>${goal - funds}</h1>
+        <h1>{(goal - funds).toLocaleString('en', { style: 'currency', currency: 'USD' })}</h1>
         <p>Left until you reach your goal!</p>
         <Button to="/">View my budget</Button>
       </header>
       <div className="Dashboard__info">
         <p className="opaque">{Moment().format('MMMM DD, YYYY')}</p>
-        <p>{total - expense} remaining in budget.</p>
+        <p>
+          {(total - expense).toLocaleString('en', { style: 'currency', currency: 'USD' })} left to
+          spend
+        </p>
         <DashboardGraph total={total} categories={categories} />
       </div>
       <ExpenseCalculator categories={categories} />

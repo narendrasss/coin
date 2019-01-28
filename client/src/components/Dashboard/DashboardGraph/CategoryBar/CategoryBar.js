@@ -8,10 +8,10 @@ const CategoryBar = props => {
   const { proportion, name, amount, spent } = props;
   return (
     <div className="CategoryBar">
-      <p>{proportion}%</p>
+      <p className="CategoryBar__proportion">{proportion}%</p>
+      <p className="CategoryBar__name">{name}</p>
       <ProgressBar percentage={spent / amount} />
-      <p>{name}</p>
-      <p>${spent} spent</p>
+      <p className="CategoryBar__spent opaque">${spent}</p>
     </div>
   );
 };
