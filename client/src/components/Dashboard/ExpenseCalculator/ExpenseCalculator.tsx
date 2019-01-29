@@ -1,44 +1,59 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import Moment from 'moment';
+
+import { Category, Transaction } from '../../../types';
 import DropDown from '../../DropDown/DropDown';
 
-class ExpenseCalculator extends Component {
-  state = {
+interface Props {
+  categories: Category[];
+}
+
+interface State {
+  vendor: string;
+  period: string;
+  result: number;
+}
+
+class ExpenseCalculator extends React.Component<Props, State> {
+  state: State = {
     vendor: '',
     period: 'In the last month',
     result: 0
   };
 
-  handleVendorChange = event => {
-    this.setState(
-      {
-        vendor: event.target.value
-      },
-      this.getResult
-    );
+  private handleVendorChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    if (e.target instanceof HTMLSelectElement) {
+      this.setState(
+        {
+          vendor: e.target.value
+        },
+        this.getResult
+      );
+    }
   };
 
-  handlePeriodChange = event => {
-    this.setState(
-      {
-        period: event.target.value
-      },
-      this.getResult
-    );
+  private handlePeriodChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    if (e.target instanceof HTMLSelectElement) {
+      this.setState(
+        {
+          period: e.target.value
+        },
+        this.getResult
+      );
+    }
   };
 
-  getResult = () => {
+  private getResult = () => {
     const { vendor, period } = this.state;
     const { categories } = this.props;
 
     const query = period.split(' ');
-    const time = query[query.length - 1];
+    const time = query[query.length - 1] as Moment.DurationInputArg2;
     const min = Moment().subtract(1, time);
 
     const transactions = categories
-      .reduce((acc, ctg) => [...acc, ...ctg.transactions], [])
-      .filter(tr => tr.vendor === vendor);
+      .reduce((acc: Transaction[], ctg: Category) => [...acc, ...ctg.transactions], [])
+      .filter((tr: Transaction) => tr.vendor === vendor);
 
     const result = transactions
       .filter(tr => Moment(tr.date, 'DD-MM-YYYY').isAfter(min))
@@ -47,13 +62,15 @@ class ExpenseCalculator extends Component {
     this.setState({ result });
   };
 
-  getVendorOptions = categories => [
+  private getVendorOptions = (categories: Category[]) => [
     ...new Set(
-      categories.reduce((acc, ctg) => [...acc, ...ctg.transactions], []).map(tr => tr.vendor)
+      categories
+        .reduce((acc: Transaction[], ctg: Category) => [...acc, ...ctg.transactions], [])
+        .map(tr => tr.vendor)
     )
   ];
 
-  render() {
+  public render() {
     const { vendor, period, result } = this.state;
     const { categories } = this.props;
     const periodOptions = ['In the last day', 'In the last month', 'In the last year'];
@@ -72,22 +89,5 @@ class ExpenseCalculator extends Component {
     );
   }
 }
-
-ExpenseCalculator.propTypes = {
-  categories: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      amount: PropTypes.number,
-      transactions: PropTypes.arrayOf(
-        PropTypes.shape({
-          _id: PropTypes.number,
-          vendor: PropTypes.string,
-          amount: PropTypes.number,
-          date: PropTypes.string
-        })
-      )
-    })
-  ).isRequired
-};
 
 export default ExpenseCalculator;

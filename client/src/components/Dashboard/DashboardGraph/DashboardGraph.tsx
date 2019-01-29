@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 
+import { Category, Transaction } from '../../../types';
 import Button from '../../Button/Button';
 import CategoryBar from './CategoryBar/CategoryBar';
 import './DashboardGraph.scss';
 
-class DashboardGraph extends Component {
-  getCategoryEl = category => {
+interface Props {
+  total: number;
+  categories: Category[];
+}
+
+class DashboardGraph extends React.Component<Props, {}> {
+  private getCategoryEl = (category: Category) => {
     const { total } = this.props;
     const { name, amount, spent } = category;
     const proportion = (amount / total) * 100;
@@ -15,7 +20,7 @@ class DashboardGraph extends Component {
     );
   };
 
-  render() {
+  public render() {
     const { categories } = this.props;
     return (
       <div className="DashboardGraph">
@@ -27,27 +32,5 @@ class DashboardGraph extends Component {
     );
   }
 }
-
-DashboardGraph.propTypes = {
-  total: PropTypes.number.isRequired,
-  categories: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      amount: PropTypes.number,
-      transactions: PropTypes.arrayOf(
-        PropTypes.shape({
-          _id: PropTypes.number,
-          vendor: PropTypes.string,
-          amount: PropTypes.number,
-          date: PropTypes.string
-        })
-      )
-    })
-  )
-};
-
-DashboardGraph.defaultProps = {
-  categories: []
-};
 
 export default DashboardGraph;

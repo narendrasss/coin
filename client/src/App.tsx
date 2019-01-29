@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Router } from '@reach/router';
 import data from './data';
 import './App.css';
 import Dashboard from './components/Dashboard/Dashboard';
 
-class App extends Component {
+class App extends React.Component {
   state = {
     name: '',
     income: 0,
