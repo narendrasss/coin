@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import Moment from 'moment';
 
-import { Category, Transaction } from '../../types';
+import { Category, Transaction, User } from '../../types';
 import DashboardGraph from './DashboardGraph/DashboardGraph';
 import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
 import GoalProgressBar from './GoalProgressBar/GoalProgressBar';
@@ -10,29 +10,39 @@ import Button from '../Button/Button';
 
 import './Dashboard.scss';
 
-interface Props {
-  funds: number;
-  goal: number;
+type Props = {
+  user: User;
   categories: Category[];
-}
+};
 
 class Dashboard extends React.Component<Props & RouteComponentProps, {}> {
   private toCurrency(num: number, currency: string): string {
     return num.toLocaleString('en', { style: 'currency', currency });
   }
 
-  public render() {
-    const { funds, goal, categories } = this.props;
+  private updateCategories() {
+    const { categories } = this.props;
+    categories.forEach(
+      ctg => (ctg.spent = ctg.transactions.reduce((acc, tr) => acc + tr.amount, 0))
+    );
+  }
 
+  private getInfo() {
+    const { user, categories } = this.props;
+    const { funds, goal } = user.goal;
     const total = categories.reduce((acc, ctg) => acc + ctg.amount, 0);
-
     const expense = categories
       .reduce((acc: Transaction[], ctg: Category) => [...acc, ...ctg.transactions], [])
       .reduce((acc: number, tr: Transaction) => acc + tr.amount, 0);
 
-    for (const ctg of categories) {
-      ctg.spent = ctg.transactions.reduce((acc, tr) => acc + tr.amount, 0);
-    }
+    return { funds, goal, total, expense };
+  }
+
+  public render() {
+    const { categories } = this.props;
+
+    this.updateCategories();
+    const { funds, goal, total, expense } = this.getInfo();
 
     return (
       <div className="Dashboard">

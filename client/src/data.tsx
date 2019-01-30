@@ -1,15 +1,32 @@
-const data = {
-  _id: 1,
-  name: 'Narendra Syahrasyad',
-  income: 2000,
-  funds: 500,
-  goal: 1500,
-  goalPayment: 250,
-  goalDue: new Date('August 2019'),
+import { Response } from './types';
+
+const data: Response = {
+  user: {
+    _id: 1,
+    name: 'Narendra Syahrasyad',
+    income: 2000,
+    goal: {
+      funds: 500,
+      goal: 1500,
+      payment: 250,
+      due: new Date('August 2019')
+    }
+  },
   fixedExpenses: [
     {
       name: 'Car',
-      amount: 250
+      amount: 250,
+      due: 1
+    },
+    {
+      name: 'Subscriptions',
+      amount: 100,
+      due: 2
+    },
+    {
+      name: 'Phone Bill',
+      amount: 75,
+      due: 1
     }
   ],
   categories: [
