@@ -7,9 +7,8 @@ class FixedExpenseList extends React.Component<{ expenses: FixedExpense[] }, {}>
   render() {
     return (
       <div className={style.container}>
-        <h3 className={style.title}>Fixed expenses</h3>
         {this.props.expenses.map(fe => (
-          <FixedExpenseCard expense={fe} />
+          <FixedExpenseCard key={fe.name} expense={fe} />
         ))}
       </div>
     );

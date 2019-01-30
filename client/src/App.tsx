@@ -19,6 +19,17 @@ type State = {
 
 class App extends React.Component<{}, State> {
   state: State = {
+    user: {
+      _id: 0,
+      name: '',
+      income: 0,
+      goal: {
+        funds: 0,
+        goal: 0,
+        payment: 0,
+        due: new Date()
+      }
+    },
     fixedExpenses: [],
     categories: []
   };

@@ -37,8 +37,12 @@ class FixedExpenseCard extends React.Component<Props, State> {
         </div>
         {isOpen ? (
           <div className={style.info}>
-            <p>Due in: {due}</p>
-            <Button to="/">Modify expense</Button>
+            <div className={style.info__about}>
+              <p>Due in: {due}</p>
+            </div>
+            <div className={style.info__btn}>
+              <Button to="/">Modify expense</Button>
+            </div>
           </div>
         ) : null}
       </div>
