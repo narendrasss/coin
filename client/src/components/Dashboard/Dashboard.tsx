@@ -5,6 +5,7 @@ import Moment from 'moment';
 import { Category, Transaction } from '../../types';
 import DashboardGraph from './DashboardGraph/DashboardGraph';
 import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
+import GoalProgressBar from './GoalProgressBar/GoalProgressBar';
 import Button from '../Button/Button';
 
 import './Dashboard.scss';
@@ -38,7 +39,8 @@ class Dashboard extends React.Component<Props & RouteComponentProps, {}> {
         <header className="Dashboard__goal">
           <h1>{this.toCurrency(goal - funds, 'USD')}</h1>
           <p>Left until you reach your goal!</p>
-          <Button to="/">View my budget</Button>
+          <GoalProgressBar funds={funds} goal={goal} />
+          <Button to="budget">View my budget</Button>
         </header>
         <div className="Dashboard__info">
           <p className="opaque">{Moment().format('MMMM DD, YYYY')}</p>

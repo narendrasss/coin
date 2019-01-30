@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Category, Transaction } from '../../../types';
+import { Category } from '../../../types';
 import Button from '../../Button/Button';
 import CategoryBar from './CategoryBar/CategoryBar';
 import './DashboardGraph.scss';

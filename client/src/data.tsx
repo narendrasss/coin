@@ -4,6 +4,8 @@ const data = {
   income: 2000,
   funds: 500,
   goal: 1500,
+  goalPayment: 250,
+  goalDue: new Date('August 2019'),
   fixedExpenses: [
     {
       name: 'Car',
