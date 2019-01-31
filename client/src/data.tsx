@@ -16,17 +16,17 @@ const data: Response = {
     {
       name: 'Car',
       amount: 250,
-      due: 1
+      due: new Date('1 August')
     },
     {
       name: 'Subscriptions',
       amount: 100,
-      due: 2
+      due: new Date('1 August')
     },
     {
       name: 'Phone Bill',
       amount: 75,
-      due: 1
+      due: new Date('1 August')
     }
   ],
   categories: [

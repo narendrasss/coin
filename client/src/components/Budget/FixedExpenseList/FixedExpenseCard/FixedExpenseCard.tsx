@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FixedExpense } from '../../../../types';
-import Button from '../../../Button/Button';
+import LinkButton from '../../../LinkButton/LinkButton';
 import style from './FixedExpenseCard.module.scss';
 
 type Props = {
@@ -38,10 +38,10 @@ class FixedExpenseCard extends React.Component<Props, State> {
         {isOpen ? (
           <div className={style.info}>
             <div className={style.info__about}>
-              <p>Due in: {due}</p>
+              <p>Due in: {due.toDateString()}</p>
             </div>
             <div className={style.info__btn}>
-              <Button to="/">Modify expense</Button>
+              <LinkButton to="/">Modify expense</LinkButton>
             </div>
           </div>
         ) : null}

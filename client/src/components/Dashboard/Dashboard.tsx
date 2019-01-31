@@ -6,7 +6,7 @@ import { Category, Transaction, User } from '../../types';
 import DashboardGraph from './DashboardGraph/DashboardGraph';
 import ExpenseCalculator from './ExpenseCalculator/ExpenseCalculator';
 import GoalProgressBar from './GoalProgressBar/GoalProgressBar';
-import Button from '../Button/Button';
+import LinkButton from '../LinkButton/LinkButton';
 
 import './Dashboard.scss';
 
@@ -50,7 +50,7 @@ class Dashboard extends React.Component<Props & RouteComponentProps, {}> {
           <h1>{this.toCurrency(goal - funds, 'USD')}</h1>
           <p>Left until you reach your goal!</p>
           <GoalProgressBar funds={funds} goal={goal} />
-          <Button to="budget">View my budget</Button>
+          <LinkButton to="budget">View my budget</LinkButton>
         </header>
         <div className="Dashboard__info">
           <p className="opaque">{Moment().format('MMMM DD, YYYY')}</p>

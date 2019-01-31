@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { Category, Transaction, FixedExpense, User } from '../../types';
-import Button from '../Button/Button';
+import { Category, FixedExpense, User } from '../../types';
+import LinkButton from '../LinkButton/LinkButton';
 import FixedExpenseList from './FixedExpenseList/FixedExpenseList';
 import style from './Budget.module.scss';
 
@@ -17,14 +17,14 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
       <div className={style.container}>
         <h3 className={style.title}>I would like to:</h3>
         <div>
-          <Button style={{ marginBottom: '0.5rem' }} to="/">
+          <LinkButton style={{ marginBottom: '0.5rem' }} to="./add-monthly-expense">
             Add new monthly expense
-          </Button>
+          </LinkButton>
           <div style={{ display: 'flex' }}>
-            <Button style={{ marginRight: '0.5rem' }} to="/">
+            <LinkButton style={{ marginRight: '0.5rem' }} to="/">
               Modify my goal
-            </Button>
-            <Button to="/">Modify my income</Button>
+            </LinkButton>
+            <LinkButton to="/">Modify my income</LinkButton>
           </div>
         </div>
         <h3 className={style.title}>Fixed expenses</h3>

@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { Router } from '@reach/router';
+import { Router, navigate } from '@reach/router';
 import data from './data';
 import './App.css';
 import Dashboard from './components/Dashboard/Dashboard';
 import Budget from './components/Budget/Budget';
 import { User, Category, FixedExpense } from './types';
-
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import FixedExpenseForm from './components/FixedExpenseForm/FixedExpenseForm';
 
 library.add(faAngleRight, faAngleDown);
 
@@ -15,6 +15,9 @@ type State = {
   user?: User;
   fixedExpenses?: FixedExpense[];
   categories?: Category[];
+  fixedExpense: string;
+  fixedExpenseAmount: string;
+  fixedExpenseDue: string;
 };
 
 class App extends React.Component<{}, State> {
@@ -31,7 +34,10 @@ class App extends React.Component<{}, State> {
       }
     },
     fixedExpenses: [],
-    categories: []
+    categories: [],
+    fixedExpense: 'Car loan',
+    fixedExpenseAmount: '250',
+    fixedExpenseDue: ''
   };
 
   componentDidMount() {
@@ -39,8 +45,37 @@ class App extends React.Component<{}, State> {
     this.setState({ user, fixedExpenses, categories });
   }
 
+  handleExpenseNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({ fixedExpense: e.target.value });
+  };
+
+  handleExpenseAmountChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({ fixedExpenseAmount: e.target.value });
+  };
+
+  handleExpenseDueChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({ fixedExpenseDue: e.target.value });
+  };
+
+  handleExpenseSubmit = () => {
+    const { fixedExpense, fixedExpenseAmount, fixedExpenseDue } = this.state;
+    const newExpense = {
+      name: fixedExpense,
+      amount: +fixedExpenseAmount,
+      due: new Date(fixedExpenseDue)
+    };
+    this.setState(
+      prevState => {
+        fixedExpenses: prevState.fixedExpenses
+          ? prevState.fixedExpenses.push(newExpense)
+          : [newExpense];
+      },
+      () => navigate('/budget')
+    );
+  };
+
   render() {
-    const { user, fixedExpenses, categories } = this.state;
+    const { user, fixedExpenses, categories, fixedExpense, fixedExpenseAmount } = this.state;
     return (
       <Router>
         <Dashboard path="/" user={user!} categories={categories!} />
@@ -49,6 +84,15 @@ class App extends React.Component<{}, State> {
           user={user!}
           categories={categories!}
           fixedExpenses={fixedExpenses!}
+        />
+        <FixedExpenseForm
+          path="/budget/add-monthly-expense"
+          name={fixedExpense}
+          amount={fixedExpenseAmount}
+          onNameChange={this.handleExpenseNameChange}
+          onAmountChange={this.handleExpenseAmountChange}
+          onDueChange={this.handleExpenseDueChange}
+          onSubmit={this.handleExpenseSubmit}
         />
       </Router>
     );
