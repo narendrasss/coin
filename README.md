@@ -31,7 +31,8 @@ This launches a development server at `localhost:3000`. Visit this page on your 
 ### Dashboard
 
 - [ ] Refactor progress bar so goal and graph component can use the same bar
-- [ ] Implement PieChart component (using D3?)
+- [X] Implement **static** PieChart component
+- [ ] Implement *working* PieChart component (using D3?)
 
 ### Budget
 

@@ -1,10 +1,15 @@
 .container {
   width: 100vw;
-  height: 100vh;
-  padding: 3rem;
+  min-height: 100vh;
+  padding: 15vh 3rem;
 }
 
-.title {
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.subtitle {
   font-size: 13px;
   color: #7389ae;
   opacity: 0.7;
@@ -18,4 +23,24 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+}
+
+.income {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.budget {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.budgetInfo {
+  text-align: right;
+}
+
+.incomeCaption {
+  font-size: 10px;
+  opacity: 0.5;
+  text-transform: uppercase;
 }
