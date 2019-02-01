@@ -1,24 +1,22 @@
 import * as React from 'react';
 
-import './ProgressBar.scss';
+import style from './ProgressBar.module.scss';
 
 interface Props {
+  color: string;
   percentage: number;
+  goal?: boolean;
 }
 
 class ProgressBar extends React.Component<Props, {}> {
   public render() {
-    const { percentage } = this.props;
-    const style = {
-      width: `${percentage * 100}%`
-    };
+    const { color, percentage, goal } = this.props;
     return (
-      <div className="ProgressBar">
-        <div className="Progress">
-          <div className="Progress__circle Progress__circle--left" />
-          <div style={style} className="bar" />
-          <div className="Progress__circle Progress__circle--right" />
-        </div>
+      <div className={style.wrapper}>
+        <div
+          style={{ background: color, width: `${percentage * 100}%` }}
+          className={goal ? style.barGoal : style.bar}
+        />
       </div>
     );
   }

@@ -6,6 +6,8 @@ import FixedExpenseList from './FixedExpenseList/FixedExpenseList';
 import style from './Budget.module.scss';
 import BackButton from '../BackButton/BackButton';
 import PieChart from '../PieChart/PieChart';
+import ProgressBar from '../ProgressBar/ProgressBar';
+import GoalTracker from '../GoalTracker/GoalTracker';
 
 type Props = {
   user: User;
@@ -21,6 +23,7 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
 
   public render() {
     const { income } = this.props.user;
+    const { funds, goal, due } = this.props.user.goal;
     return (
       <div className={style.container}>
         <BackButton />
@@ -54,6 +57,11 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
         </h3>
         <FixedExpenseList expenses={this.props.fixedExpenses} />
         <h3 className={style.subtitle}>Goal</h3>
+        <div>
+          <p>Savings</p>
+          <p>Due: {due.toDateString()}</p>
+        </div>
+        <GoalTracker funds={funds} goal={goal} />
       </div>
     );
   }

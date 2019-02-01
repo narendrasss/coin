@@ -17,7 +17,6 @@ class CategoryBar extends React.Component<Props, {}> {
       <div className="CategoryBar">
         <p className="CategoryBar__proportion">{proportion}%</p>
         <p className="CategoryBar__name">{name}</p>
-        <ProgressBar percentage={spent / amount} />
         <p className="CategoryBar__spent opaque">${spent}</p>
       </div>
     );
