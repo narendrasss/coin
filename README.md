@@ -37,3 +37,4 @@ This launches a development server at `localhost:3000`. Visit this page on your 
 ### Budget
 
 - [ ] Implement feature for modify buttons (currently only presentational)
+- [ ] Correct styling for fixed expense info component

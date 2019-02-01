@@ -32,7 +32,7 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
           </div>
         </header>
         <div className={style.info}>
-          <PieChart outerRadius="12rem" innerRadius="7rem">
+          <PieChart outerRadius="16rem" innerRadius="9rem">
             <h1 className={style.income}>${income.toLocaleString()}</h1>
             <p className={style.incomeCaption}>Total Income</p>
           </PieChart>
