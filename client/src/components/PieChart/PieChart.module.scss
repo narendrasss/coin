@@ -1,0 +1,17 @@
+@import '../../styles/settings';
+
+.outer {
+  background: $secondary;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner {
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

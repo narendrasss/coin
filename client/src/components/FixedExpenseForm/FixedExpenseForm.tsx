@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps, Link } from '@reach/router';
 import style from './FixedExpenseForm.module.scss';
 import ActionButton from '../ActionButton/ActionButton';
+import BackButton from '../BackButton/BackButton';
 
 type Props = {
   name: string;
@@ -17,6 +18,7 @@ class FixedExpenseForm extends React.Component<Props & RouteComponentProps, {}> 
     const { name, amount, onNameChange, onAmountChange, onDueChange, onSubmit } = this.props;
     return (
       <div className={style.container}>
+        <BackButton />
         <form>
           <h1 className={style.title}>New Monthly Expense</h1>
           <label>

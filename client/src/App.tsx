@@ -6,10 +6,10 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Budget from './components/Budget/Budget';
 import { User, Category, FixedExpense } from './types';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faAngleDown, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import FixedExpenseForm from './components/FixedExpenseForm/FixedExpenseForm';
 
-library.add(faAngleRight, faAngleDown);
+library.add(faAngleRight, faAngleDown, faArrowLeft);
 
 type State = {
   user?: User;
