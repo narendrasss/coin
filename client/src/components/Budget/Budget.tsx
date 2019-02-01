@@ -8,6 +8,7 @@ import BackButton from '../BackButton/BackButton';
 import PieChart from '../PieChart/PieChart';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import GoalTracker from '../GoalTracker/GoalTracker';
+import Moment from 'moment';
 
 type Props = {
   user: User;
@@ -57,9 +58,9 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
         </h3>
         <FixedExpenseList expenses={this.props.fixedExpenses} />
         <h3 className={style.subtitle}>Goal</h3>
-        <div>
-          <p>Savings</p>
-          <p>Due: {due.toDateString()}</p>
+        <div className={style.goal}>
+          <p className={style.goalTitle}>Savings</p>
+          <p className={style.goalDue}>Due: {Moment(due).format('MMMM YYYY')}</p>
         </div>
         <GoalTracker funds={funds} goal={goal} />
       </div>

@@ -1,7 +1,7 @@
 .container {
   width: 100vw;
   min-height: 100vh;
-  padding: 15vh 3rem;
+  padding: 12vh 3rem;
 }
 
 .header {
@@ -43,4 +43,19 @@
   font-size: 0.8rem;
   opacity: 0.5;
   text-transform: uppercase;
+}
+
+.goal {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.goalTitle {
+  font-size: 1.2rem;
+}
+
+.goalDue {
+  opacity: 0.5;
 }

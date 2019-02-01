@@ -2,6 +2,8 @@ import * as React from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import style from './GoalTracker.module.scss';
 
+const Fragment = React.Fragment;
+
 type Props = {
   funds: number;
   goal: number;
@@ -11,7 +13,7 @@ class GoalTracker extends React.Component<Props, {}> {
   render() {
     const { funds, goal } = this.props;
     return (
-      <div>
+      <Fragment>
         <ProgressBar
           color="linear-gradient(98deg, #416788, #78DEA3)"
           percentage={funds / goal}
@@ -34,7 +36,7 @@ class GoalTracker extends React.Component<Props, {}> {
             <p>Goal</p>
           </div>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }
