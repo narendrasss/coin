@@ -8,6 +8,8 @@ import { User, Category, FixedExpense } from './types';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faAngleRight, faAngleDown, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import FixedExpenseForm from './components/FixedExpenseForm/FixedExpenseForm';
+import Categories from './components/Categories/Categories';
+import CategoryForm from './components/CategoryForm/CategoryForm';
 
 library.add(faAngleRight, faAngleDown, faArrowLeft);
 
@@ -94,6 +96,13 @@ class App extends React.Component<{}, State> {
           onDueChange={this.handleExpenseDueChange}
           onSubmit={this.handleExpenseSubmit}
         />
+        <Categories
+          path="/categories"
+          income={user!.income}
+          fixedExpenses={fixedExpenses!}
+          categories={categories!}
+        />
+        <CategoryForm path="/add-category" />
       </Router>
     );
   }

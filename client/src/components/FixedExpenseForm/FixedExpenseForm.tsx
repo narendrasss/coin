@@ -17,8 +17,8 @@ class FixedExpenseForm extends React.Component<Props & RouteComponentProps, {}> 
   render() {
     const { name, amount, onNameChange, onAmountChange, onDueChange, onSubmit } = this.props;
     return (
-      <div className={style.container}>
-        <BackButton />
+      <main className={style.container}>
+        <BackButton target="/budget" />
         <form>
           <h1 className={style.title}>New Monthly Expense</h1>
           <label>
@@ -42,7 +42,7 @@ class FixedExpenseForm extends React.Component<Props & RouteComponentProps, {}> 
           </div>
         </form>
         <ActionButton onclick={onSubmit}>Add new expense</ActionButton>
-      </div>
+      </main>
     );
   }
 }

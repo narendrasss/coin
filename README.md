@@ -25,16 +25,28 @@ This launches a development server at `localhost:3000`. Visit this page on your 
 ### General
 
 - [ ] Change all SASS files to be CSS modules
+- [ ] Remove repetitive code (mainly scss styles)
 - [ ] Add working (wireframe) components for each page
 - [ ] Implement login and authentication
 
-### Dashboard
+### Pages to Implement
 
-- [ ] Refactor progress bar so goal and graph component can use the same bar
+- [ ] Onboarding pages
+- [ ] Dashboard (*needs fix*)
+  - [ ] Fix styling and component structure
+- [ ] Budget
+  - [ ] Implement modify buttons
+  - [ ] Correct fixed expense component
+- [X] Add **fixed** expense
+- [ ] All categories
+  - [ ] Fix styling
+- [ ] One category (one)
+- [ ] Add category
+  - [ ] Implement `onSubmit` feature
+- [ ] All expenses
+- [ ] Add expense
+
+### Other
+
 - [X] Implement **static** PieChart component
 - [ ] Implement *working* PieChart component (using D3?)
-
-### Budget
-
-- [ ] Implement feature for modify buttons (currently only presentational)
-- [ ] Correct styling for fixed expense info component

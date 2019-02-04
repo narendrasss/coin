@@ -6,7 +6,6 @@ import FixedExpenseList from './FixedExpenseList/FixedExpenseList';
 import style from './Budget.module.scss';
 import BackButton from '../BackButton/BackButton';
 import PieChart from '../PieChart/PieChart';
-import ProgressBar from '../ProgressBar/ProgressBar';
 import GoalTracker from '../GoalTracker/GoalTracker';
 import Moment from 'moment';
 
@@ -27,7 +26,7 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
     const { funds, goal, due } = this.props.user.goal;
     return (
       <div className={style.container}>
-        <BackButton />
+        <BackButton target="/" />
         <header className={style.header}>
           <h1 style={{ fontWeight: 'normal' }}>My Budget</h1>
           <div className={style.budgetInfo}>
