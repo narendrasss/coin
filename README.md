@@ -1,8 +1,8 @@
 # Finance App
 
-Finance application for managing expenses. Built with Typescript and React. Currently working on front-end, will implement back-end server in the near future.
+Finance application for managing expenses. Built with Typescript and React. This repo contains the client side code.
 
-Credit to [Najla Sekariyanti](https://najlas.me) for the incredible UI/UX work on this app. Check out the wireframes [here](https://xd.adobe.com/spec/b7512e29-47ed-4f97-74f1-b958501c4539-c160/).
+Credit to [Najla Sekariyanti](https://najlas.me) for the incredible UI/UX work on this app. Check out the case study that she wrote [here](https://najlas.me/coin).
 
 ## Running the App
 
