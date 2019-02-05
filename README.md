@@ -15,7 +15,7 @@ $ git clone && cd finance-react
 Then start the development server:
 
 ```
-$ cd client && npm start
+$ npm start
 ```
 
 This launches a development server at `localhost:3000`. Visit this page on your browser to browse the app.
@@ -27,29 +27,28 @@ This launches a development server at `localhost:3000`. Visit this page on your 
 - [ ] Change all SASS files to be CSS modules
 - [ ] Remove repetitive code (mainly scss styles)
 - [ ] Add working (wireframe) components for each page
-- [ ] Implement login and authentication
 
 ### Pages to Implement
 
 - [ ] Onboarding pages
-- [ ] Dashboard (*needs fix*)
+- [ ] Dashboard (_needs fix_)
   - [ ] Fix styling and component structure
 - [ ] Budget
-  - [X] Add wireframe
-  - [X] Fix styling
+  - [x] Add wireframe
+  - [x] Fix styling
   - [ ] Implement modify buttons
   - [ ] Correct fixed expense component
-- [X] Add **fixed** expense
+- [x] Add **fixed** expense
 - [ ] All categories
-  - [X] Add wireframe
+  - [x] Add wireframe
   - [ ] Fix styling
 - [ ] One category (one)
-  - [X] Add wireframe
+  - [x] Add wireframe
   - [ ] Add content by fetching from server
   - [ ] Fix styling
 - [ ] Add category
-  - [X] Add wireframe
-  - [X] Fix styling
+  - [x] Add wireframe
+  - [x] Fix styling
   - [ ] Implement `onSubmit` feature
 - [ ] All expenses
   - [ ] Add wireframe
@@ -60,5 +59,5 @@ This launches a development server at `localhost:3000`. Visit this page on your 
 
 ### Other
 
-- [X] Implement **static** PieChart component
-- [ ] Implement *working* PieChart component (using D3?)
+- [x] Implement **static** PieChart component
+- [ ] Implement _working_ PieChart component (using D3?)
