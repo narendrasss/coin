@@ -10,6 +10,7 @@ import { faAngleRight, faAngleDown, faArrowLeft } from '@fortawesome/free-solid-
 import FixedExpenseForm from './components/FixedExpenseForm/FixedExpenseForm';
 import Categories from './components/Categories/Categories';
 import CategoryForm from './components/CategoryForm/CategoryForm';
+import CategoryPage from './components/Category/Category';
 
 library.add(faAngleRight, faAngleDown, faArrowLeft);
 
@@ -76,6 +77,14 @@ class App extends React.Component<{}, State> {
     );
   };
 
+  getCategory(name: string) {
+    const { categories } = this.state;
+    if (categories) {
+      const results = categories.filter(ctg => ctg.name === name);
+      if (results.length) return results[0];
+    }
+  }
+
   render() {
     const { user, fixedExpenses, categories, fixedExpense, fixedExpenseAmount } = this.state;
     return (
@@ -103,6 +112,7 @@ class App extends React.Component<{}, State> {
           categories={categories!}
         />
         <CategoryForm path="/add-category" />
+        <CategoryPage path="/categories/:categoryName" onMount={this.getCategory} />
       </Router>
     );
   }

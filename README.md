@@ -35,16 +35,28 @@ This launches a development server at `localhost:3000`. Visit this page on your 
 - [ ] Dashboard (*needs fix*)
   - [ ] Fix styling and component structure
 - [ ] Budget
+  - [X] Add wireframe
+  - [X] Fix styling
   - [ ] Implement modify buttons
   - [ ] Correct fixed expense component
 - [X] Add **fixed** expense
 - [ ] All categories
+  - [X] Add wireframe
   - [ ] Fix styling
 - [ ] One category (one)
+  - [X] Add wireframe
+  - [ ] Add content by fetching from server
+  - [ ] Fix styling
 - [ ] Add category
+  - [X] Add wireframe
+  - [X] Fix styling
   - [ ] Implement `onSubmit` feature
 - [ ] All expenses
+  - [ ] Add wireframe
+  - [ ] Fix styling
 - [ ] Add expense
+  - [ ] Add wireframe
+  - [ ] Fix styling
 
 ### Other
 
