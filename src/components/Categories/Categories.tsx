@@ -26,7 +26,9 @@ class Categories extends React.Component<Props & RouteComponentProps, {}> {
         </header>
         <p>Total budget ${income ? income.toLocaleString() : 0}</p>
         <CategoryList categories={categories} />
-        <LinkButton to="/add-category">Add new category</LinkButton>
+        <LinkButton icon="angle-right" to="/add-category">
+          Add new category
+        </LinkButton>
       </main>
     );
   }

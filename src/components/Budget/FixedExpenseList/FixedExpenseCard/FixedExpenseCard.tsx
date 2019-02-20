@@ -41,7 +41,9 @@ class FixedExpenseCard extends React.Component<Props, State> {
               <p>Due in: {due.toDateString()}</p>
             </div>
             <div className={style.info__btn}>
-              <LinkButton to="/">Modify expense</LinkButton>
+              <LinkButton icon="angle-right" to="/">
+                Modify expense
+              </LinkButton>
             </div>
           </div>
         ) : null}

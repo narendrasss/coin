@@ -26,8 +26,12 @@ class DashboardGraph extends React.Component<Props, {}> {
       <div className="DashboardGraph">
         <div className="Dashboard__graph" />
         {categories.map(this.getCategoryEl)}
-        <LinkButton to="/categories">See all categories</LinkButton>
-        <LinkButton to="/">Add new expense</LinkButton>
+        <LinkButton icon="angle-right" to="/categories">
+          See all categories
+        </LinkButton>
+        <LinkButton icon="angle-right" to="/">
+          Add new expense
+        </LinkButton>
       </div>
     );
   }

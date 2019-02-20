@@ -1,0 +1,53 @@
+@import '../../styles/settings';
+
+.container {
+  padding: 3rem;
+  font-size: 15px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 200;
+}
+
+.input {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  padding: 0 0.8rem;
+  border: 1px solid #e0e0e2;
+  border-radius: 5px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #e0e0e2;
+  margin-top: 0.8rem;
+  -webkit-appearance: none;
+  margin-bottom: 1.5rem;
+  &:focus {
+    border: 3px solid $secondary;
+    outline: none;
+    color: inherit;
+  }
+}
+
+.inputActive {
+  @extend .input;
+  color: inherit;
+}
+
+.text {
+  margin-top: 0.7rem;
+  color: #b4bad0;
+  line-height: 1.5;
+}

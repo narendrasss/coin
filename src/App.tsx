@@ -1,18 +1,23 @@
 import * as React from 'react';
 import { Router, navigate } from '@reach/router';
 import data from './data';
-import './App.css';
-import Dashboard from './components/Dashboard/Dashboard';
-import Budget from './components/Budget/Budget';
 import { User, Category, FixedExpense } from './types';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faAngleRight, faAngleDown, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAngleRight,
+  faAngleDown,
+  faArrowLeft,
+  faArrowRight
+} from '@fortawesome/free-solid-svg-icons';
+import Dashboard from './components/Dashboard/Dashboard';
+import Budget from './components/Budget/Budget';
 import FixedExpenseForm from './components/FixedExpenseForm/FixedExpenseForm';
 import Categories from './components/Categories/Categories';
 import CategoryForm from './components/CategoryForm/CategoryForm';
-import CategoryPage from './components/Category/Category';
+import Login from './components/Login/Login';
+import Register from './components/Register/Register';
 
-library.add(faAngleRight, faAngleDown, faArrowLeft);
+library.add(faAngleRight, faAngleDown, faArrowLeft, faArrowRight);
 
 type State = {
   user?: User;
@@ -77,18 +82,12 @@ class App extends React.Component<{}, State> {
     );
   };
 
-  getCategory(name: string) {
-    const { categories } = this.state;
-    if (categories) {
-      const results = categories.filter(ctg => ctg.name === name);
-      if (results.length) return results[0];
-    }
-  }
-
   render() {
     const { user, fixedExpenses, categories, fixedExpense, fixedExpenseAmount } = this.state;
     return (
       <Router>
+        <Login path="/login" />
+        <Register path="/register/*" />
         <Dashboard path="/" user={user!} categories={categories!} />
         <Budget
           path="/budget"
@@ -112,7 +111,6 @@ class App extends React.Component<{}, State> {
           categories={categories!}
         />
         <CategoryForm path="/add-category" />
-        <CategoryPage path="/categories/:categoryName" onMount={this.getCategory} />
       </Router>
     );
   }

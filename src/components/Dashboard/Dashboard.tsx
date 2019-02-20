@@ -48,7 +48,9 @@ class Dashboard extends React.Component<Props & RouteComponentProps, {}> {
         <header className="Dashboard__goal">
           <h1>{this.toCurrency(goal - funds, 'USD')}</h1>
           <p>Left until you reach your goal!</p>
-          <LinkButton to="budget">View my budget</LinkButton>
+          <LinkButton icon="angle-right" to="budget">
+            View my budget
+          </LinkButton>
         </header>
         <div className="Dashboard__info">
           <p className="opaque">{Moment().format('MMMM DD, YYYY')}</p>

@@ -42,14 +42,20 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
         </div>
         <h3 className={style.subtitle}>I would like to:</h3>
         <div>
-          <LinkButton style={{ marginBottom: '0.5rem' }} to="./add-monthly-expense">
+          <LinkButton
+            icon="angle-right"
+            style={{ marginBottom: '0.5rem' }}
+            to="./add-monthly-expense"
+          >
             Add new monthly expense
           </LinkButton>
           <div style={{ display: 'flex' }}>
-            <LinkButton style={{ marginRight: '0.5rem' }} to="/">
+            <LinkButton icon="angle-right" style={{ marginRight: '0.5rem' }} to="/">
               Modify my goal
             </LinkButton>
-            <LinkButton to="/">Modify my income</LinkButton>
+            <LinkButton icon="angle-right" to="/">
+              Modify my income
+            </LinkButton>
           </div>
         </div>
         <h3 style={{ marginBottom: 0 }} className={style.subtitle}>
