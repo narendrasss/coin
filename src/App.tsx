@@ -7,17 +7,16 @@ import {
   faAngleRight,
   faAngleDown,
   faArrowLeft,
-  faArrowRight
+  faArrowRight,
+  faPlus,
+  faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
-import Dashboard from './components/Dashboard/Dashboard';
 import Budget from './components/Budget/Budget';
 import FixedExpenseForm from './components/FixedExpenseForm/FixedExpenseForm';
-import Categories from './components/Categories/Categories';
-import CategoryForm from './components/CategoryForm/CategoryForm';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 
-library.add(faAngleRight, faAngleDown, faArrowLeft, faArrowRight);
+library.add(faAngleRight, faAngleDown, faArrowLeft, faArrowRight, faPlus, faTrashAlt);
 
 type State = {
   user?: User;
@@ -88,7 +87,6 @@ class App extends React.Component<{}, State> {
       <Router>
         <Login path="/login" />
         <Register path="/register/*" />
-        <Dashboard path="/" user={user!} categories={categories!} />
         <Budget
           path="/budget"
           user={user!}
@@ -104,13 +102,6 @@ class App extends React.Component<{}, State> {
           onDueChange={this.handleExpenseDueChange}
           onSubmit={this.handleExpenseSubmit}
         />
-        <Categories
-          path="/categories"
-          income={user!.income}
-          fixedExpenses={fixedExpenses!}
-          categories={categories!}
-        />
-        <CategoryForm path="/add-category" />
       </Router>
     );
   }

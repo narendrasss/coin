@@ -5,6 +5,7 @@ import ActionButton from '../ActionButton/ActionButton';
 import Axios from '../../api';
 import { AxiosError } from 'axios';
 import Error from '../Error/Error';
+import FetchError from '../FetchError/FetchError';
 
 type State = {
   email: string;
@@ -68,7 +69,7 @@ class Login extends React.Component<RouteComponentProps, State> {
               style={{ marginBottom: '2rem' }}
             />
           </label>
-          {error ? <Error code={error.response!.status} /> : null}
+          {error ? <FetchError code={error.response!.status} /> : null}
           <ActionButton onclick={this.handleSubmit}>Login</ActionButton>
         </form>
         <Link className={style.registerLink} to="/register">

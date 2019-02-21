@@ -2,18 +2,17 @@ import React from 'react';
 import scss from './Button.module.scss';
 
 interface Props {
+  type?: string;
   style?: React.CSSProperties;
+  onclick?: React.MouseEventHandler;
 }
 
-class Button extends React.Component<Props, {}> {
-  public render() {
-    const { style, children } = this.props;
-    return (
-      <div style={style} className={scss.btn}>
-        {children}
-      </div>
-    );
-  }
-}
+const Button: React.FC<Props> = ({ style, type = 'default', onclick, children }) => {
+  return (
+    <button style={style} className={[scss.btn, scss[type]].join(' ')} onClick={onclick}>
+      {children}
+    </button>
+  );
+};
 
 export default Button;

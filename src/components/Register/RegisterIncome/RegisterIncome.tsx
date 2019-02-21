@@ -1,23 +1,28 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import style from '../Register.module.scss';
-import LinkButton from '../../LinkButton/LinkButton';
 import BackButton from '../../BackButton/BackButton';
 import { FixedExpense } from '../../../types';
 import FixedExpenseInput from './FixedExpenseInput/FixedExpenseInput';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import LinkButton from '../../LinkButton/LinkButton';
 
 type Props = {
-  income: string;
+  income: number;
   fixedExpenses: FixedExpense[];
   handleTextChange: React.ChangeEventHandler<HTMLInputElement>;
   handleFixedExpenseChange: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
+  handleAddFixedExpense: React.MouseEventHandler;
+  handleDelFixedExpense: (e: React.MouseEvent, idx: number) => void;
 };
 
 const RegisterIncome: React.FC<Props & RouteComponentProps> = ({
   income,
   fixedExpenses,
   handleTextChange,
-  handleFixedExpenseChange
+  handleFixedExpenseChange,
+  handleAddFixedExpense,
+  handleDelFixedExpense
 }) => (
   <main className={style.container}>
     <BackButton to="/register" />
@@ -37,23 +42,33 @@ const RegisterIncome: React.FC<Props & RouteComponentProps> = ({
         />
       </label>
       <p>Do you have any fixed expenses per month? If so, what are they?</p>
-      <div style={{ marginTop: '1.5rem' }}>
+      <div style={{ margin: '1.5rem 0' }}>
         {fixedExpenses.map(({ name, amount }, index) => (
           <FixedExpenseInput
-            key={['fe', index].join()}
+            key={['fe', index].join('')}
             name={name}
             amount={amount}
             index={index}
             handler={handleFixedExpenseChange}
+            onDelete={handleDelFixedExpense}
           />
         ))}
       </div>
-      <LinkButton
-        to="./income"
-        icon="arrow-right"
-        style={{ display: 'flex', justifyContent: 'center', marginTop: '1.5rem' }}
-      />
     </form>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <button
+        style={{ marginBottom: '1.5rem' }}
+        onClick={handleAddFixedExpense}
+        className={style.addBtn}
+      >
+        <FontAwesomeIcon icon="plus" size="lg" />
+      </button>
+    </div>
+    <LinkButton
+      to="../categories"
+      icon="arrow-right"
+      style={{ display: 'flex', justifyContent: 'center' }}
+    />
   </main>
 );
 
