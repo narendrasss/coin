@@ -26,7 +26,7 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
     const { funds, goal, due } = this.props.user.goal;
     return (
       <div className={style.container}>
-        <BackButton target="/" />
+        <BackButton to="/" />
         <header className={style.header}>
           <h1 style={{ fontWeight: 'normal' }}>My Budget</h1>
           <div className={style.budgetInfo}>

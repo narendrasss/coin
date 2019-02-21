@@ -16,7 +16,7 @@ class Categories extends React.Component<Props & RouteComponentProps, {}> {
     const { income, categories } = this.props;
     return (
       <main>
-        <BackButton target="/" />
+        <BackButton to="/" />
         <p>
           Transactions by <span>category</span>
         </p>

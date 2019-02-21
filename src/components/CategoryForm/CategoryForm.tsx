@@ -8,7 +8,7 @@ class CategoryForm extends React.Component<RouteComponentProps, {}> {
   render() {
     return (
       <main className={style.container}>
-        <BackButton target="/categories" />
+        <BackButton to="/categories" />
         <form>
           <h1 className={style.title}>New Category</h1>
           <label htmlFor="name">Category Name</label>

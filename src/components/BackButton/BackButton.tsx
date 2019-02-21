@@ -4,13 +4,12 @@ import style from './BackButton.module.scss';
 import { navigate } from '@reach/router';
 
 type Props = {
-  target: string;
+  to: string;
 };
 
-const BackButton: React.FC<Props> = props => {
-  const { target } = props;
+const BackButton: React.FC<Props> = ({ to }) => {
   return (
-    <div className={style.back} onClick={() => navigate(target)}>
+    <div className={style.back} onClick={() => navigate(to)}>
       <FontAwesomeIcon icon="arrow-left" size="2x" />
     </div>
   );

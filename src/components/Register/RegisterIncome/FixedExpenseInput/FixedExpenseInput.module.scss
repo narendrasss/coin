@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+}
+
+.name {
+  flex: 2;
+  margin-right: 0.8rem;
+}
+
+.amount {
+  flex: 1;
+}
+
+.title {
+  color: #b4bad0;
+}

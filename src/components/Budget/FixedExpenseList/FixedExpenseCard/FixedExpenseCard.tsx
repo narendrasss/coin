@@ -37,9 +37,11 @@ class FixedExpenseCard extends React.Component<Props, State> {
         </div>
         {isOpen ? (
           <div className={style.info}>
-            <div className={style.info__about}>
-              <p>Due in: {due.toDateString()}</p>
-            </div>
+            {due ? (
+              <div className={style.info__about}>
+                <p>Due in: {due.toDateString()}</p>
+              </div>
+            ) : null}
             <div className={style.info__btn}>
               <LinkButton icon="angle-right" to="/">
                 Modify expense

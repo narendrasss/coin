@@ -4,6 +4,7 @@ import Axios from '../../api';
 import { AxiosError } from 'axios';
 import RegisterInfo from './RegisterInfo/RegisterInfo';
 import RegisterIncome from './RegisterIncome/RegisterIncome';
+import { FixedExpense } from '../../types';
 
 type State = {
   name: string;
@@ -11,6 +12,7 @@ type State = {
   password: string;
   passwordConfirm: string;
   income: string;
+  fixedExpenses: FixedExpense[];
   error?: AxiosError;
 };
 
@@ -20,11 +22,36 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
     email: '',
     password: '',
     passwordConfirm: '',
-    income: ''
+    income: '',
+    fixedExpenses: [
+      {
+        name: 'Rent',
+        amount: 800
+      },
+      {
+        name: 'Membership',
+        amount: 50
+      },
+      {
+        name: 'Utilities',
+        amount: 100
+      }
+    ]
   } as State;
 
   handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [e.target.id]: e.target.value });
+  };
+
+  handleFixedExpenseChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+    const fixedExpenses = this.state.fixedExpenses;
+    const expense = fixedExpenses[idx];
+    if (e.target.type === 'text') {
+      expense.name = e.target.value;
+    } else {
+      expense.amount = +e.target.value;
+    }
+    this.setState({ fixedExpenses });
   };
 
   handleSubmit = async () => {
@@ -40,7 +67,7 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
   };
 
   render() {
-    const { name, email, password, passwordConfirm, income } = this.state;
+    const { name, email, password, passwordConfirm, income, fixedExpenses } = this.state;
     return (
       <Router>
         <RegisterInfo
@@ -51,7 +78,13 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
           passwordConfirm={passwordConfirm}
           handleTextChange={this.handleTextChange}
         />
-        <RegisterIncome path="income" income={income} handleTextChange={this.handleTextChange} />
+        <RegisterIncome
+          path="income"
+          income={income}
+          fixedExpenses={fixedExpenses}
+          handleTextChange={this.handleTextChange}
+          handleFixedExpenseChange={this.handleFixedExpenseChange}
+        />
       </Router>
     );
   }

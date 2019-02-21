@@ -21,7 +21,7 @@ export interface Goal {
 export interface FixedExpense {
   name: string;
   amount: number;
-  due: Date;
+  due?: Date;
 }
 
 export interface Transaction {

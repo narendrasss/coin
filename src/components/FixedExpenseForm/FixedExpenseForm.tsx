@@ -18,7 +18,7 @@ class FixedExpenseForm extends React.Component<Props & RouteComponentProps, {}> 
     const { name, amount, onNameChange, onAmountChange, onDueChange, onSubmit } = this.props;
     return (
       <main className={style.container}>
-        <BackButton target="/budget" />
+        <BackButton to="/budget" />
         <form>
           <h1 className={style.title}>New Monthly Expense</h1>
           <label>
