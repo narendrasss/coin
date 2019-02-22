@@ -2,10 +2,12 @@ import * as React from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
 import Axios from '../../../utils/api';
 import { AxiosError } from 'axios';
-import { FixedExpense, Category } from '../../../types';
+import { FixedExpense, Category, Goal } from '../../../types';
 import RegisterInfo from './RegisterInfo/RegisterInfo';
 import RegisterIncome from './RegisterIncome/RegisterIncome';
 import RegisterCategory from './RegisterCategory/RegisterCategory';
+import RegisterGoal from './RegisterGoal/RegisterGoal';
+import moment from 'moment';
 
 type State = {
   name: string;
@@ -16,6 +18,10 @@ type State = {
   budget: number;
   fixedExpenses: FixedExpense[];
   categories: Category[];
+  goalFor: string;
+  goalAmount: number;
+  goalDue: string;
+  goalPayment: number;
   error?: AxiosError;
 };
 
@@ -41,7 +47,11 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
         amount: 100
       }
     ],
-    categories: [{ name: '', amount: 0 }]
+    categories: [{ name: '', amount: 0 }],
+    goalFor: '',
+    goalAmount: 0,
+    goalDue: '',
+    goalPayment: 0
   } as State;
 
   handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +117,16 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
     this.setState({ categories });
   };
 
+  handleGoalAmountChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    this.setState({ goalAmount: +e.target.value }, () => {
+      const { goalAmount, goalDue, goalPayment } = this.state;
+      if (goalDue.length) {
+        const months = moment(goalDue).diff(moment(), 'month');
+        this.setState({ goalPayment: goalAmount / months });
+      }
+    });
+  };
+
   handleSubmit = async () => {
     const { email, password } = this.state;
     try {
@@ -127,7 +147,11 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
       passwordConfirm,
       income,
       fixedExpenses,
-      categories
+      categories,
+      goalFor,
+      goalAmount,
+      goalDue,
+      goalPayment
     } = this.state;
     return (
       <Router>
@@ -154,6 +178,16 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
           onChange={this.handleCategoryChange}
           onAdd={this.handleAddCategory}
           onDel={this.handleDelCategory}
+        />
+        <RegisterGoal
+          path="goal"
+          goalFor={goalFor}
+          goalAmount={goalAmount}
+          goalDue={goalDue}
+          goalPayment={goalPayment}
+          onTextChange={this.handleTextChange}
+          onNumChange={this.handleGoalAmountChange}
+          onSubmit={this.handleSubmit}
         />
       </Router>
     );

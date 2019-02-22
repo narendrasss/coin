@@ -9,7 +9,7 @@ const data: Response = {
       funds: 500,
       goal: 1500,
       payment: 250,
-      due: new Date('August 2019')
+      due: 'August 2019'
     }
   },
   fixedExpenses: [

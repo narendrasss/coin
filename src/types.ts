@@ -12,10 +12,11 @@ export interface User {
 }
 
 export interface Goal {
+  name?: string;
   funds: number;
   goal: number;
   payment: number;
-  due: Date;
+  due: string;
 }
 
 export interface FixedExpense {

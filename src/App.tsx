@@ -26,7 +26,7 @@ class App extends React.Component<{}, State> {
         funds: 0,
         goal: 0,
         payment: 0,
-        due: new Date()
+        due: ''
       }
     },
     fixedExpenses: [],
