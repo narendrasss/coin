@@ -117,14 +117,20 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
     this.setState({ categories });
   };
 
+  calculateGoalPayment = () => {
+    const { goalAmount, goalDue, goalPayment } = this.state;
+    if (goalDue.length) {
+      const months = moment(goalDue).diff(moment(), 'month');
+      this.setState({ goalPayment: goalAmount / months });
+    }
+  };
+
   handleGoalAmountChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    this.setState({ goalAmount: +e.target.value }, () => {
-      const { goalAmount, goalDue, goalPayment } = this.state;
-      if (goalDue.length) {
-        const months = moment(goalDue).diff(moment(), 'month');
-        this.setState({ goalPayment: goalAmount / months });
-      }
-    });
+    this.setState({ goalAmount: +e.target.value }, this.calculateGoalPayment);
+  };
+
+  handleGoalDueChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    this.setState({ goalDue: e.target.value }, this.calculateGoalPayment);
   };
 
   handleSubmit = async () => {
@@ -185,7 +191,8 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
           goalAmount={goalAmount}
           goalDue={goalDue}
           goalPayment={goalPayment}
-          onTextChange={this.handleTextChange}
+          onForChange={this.handleTextChange}
+          onDueChange={this.handleGoalDueChange}
           onNumChange={this.handleGoalAmountChange}
           onSubmit={this.handleSubmit}
         />

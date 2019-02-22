@@ -9,7 +9,8 @@ type Props = {
   goalAmount: number;
   goalDue: string;
   goalPayment: number;
-  onTextChange: React.ChangeEventHandler<HTMLInputElement>;
+  onForChange: React.ChangeEventHandler<HTMLInputElement>;
+  onDueChange: React.ChangeEventHandler<HTMLInputElement>;
   onNumChange: React.ChangeEventHandler<HTMLInputElement>;
   onSubmit: () => void;
 };
@@ -19,7 +20,8 @@ const RegisterGoal: React.FC<Props & RouteComponentProps> = ({
   goalAmount,
   goalDue,
   goalPayment,
-  onTextChange,
+  onForChange,
+  onDueChange,
   onNumChange,
   onSubmit
 }) => {
@@ -39,7 +41,7 @@ const RegisterGoal: React.FC<Props & RouteComponentProps> = ({
             id="goalFor"
             type="text"
             value={goalFor}
-            onChange={onTextChange}
+            onChange={onForChange}
           />
         </label>
         <label htmlFor="goalAmount">
@@ -59,7 +61,7 @@ const RegisterGoal: React.FC<Props & RouteComponentProps> = ({
             id="goalDue"
             type="date"
             value={goalDue}
-            onChange={onTextChange}
+            onChange={onDueChange}
           />
         </label>
         <Tip>

@@ -9,7 +9,7 @@ type Props = {
   onDel: (e: React.MouseEvent, name: string) => void;
 };
 
-const CategoryCard: React.FC<Props> = ({ name, index, onAdd, onDel }) => {
+const CategoryCard: React.FC<Props> = ({ name, onAdd, onDel }) => {
   const [clicked, setClicked] = React.useState(false);
 
   const handleClick: React.MouseEventHandler = e => {
