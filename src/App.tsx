@@ -2,10 +2,7 @@ import * as React from 'react';
 import { Router, navigate } from '@reach/router';
 import data from './data';
 import { User, Category, FixedExpense } from './types';
-import Budget from './components/Budget/Budget';
-import FixedExpenseForm from './components/FixedExpenseForm/FixedExpenseForm';
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
+import { Budget, FixedExpenseForm, Login, Register } from './components/pages';
 import { initIcons } from './utils/icons';
 
 initIcons();
