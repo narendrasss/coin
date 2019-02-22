@@ -1,5 +1,11 @@
 @import '../../styles/settings';
 
+.form {
+  > * {
+    margin-bottom: 1.5rem;
+  }
+}
+
 .container {
   padding: 10rem 3rem 8rem 3rem;
   font-size: 15px;

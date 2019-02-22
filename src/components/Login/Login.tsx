@@ -2,9 +2,8 @@ import * as React from 'react';
 import { RouteComponentProps, Link } from '@reach/router';
 import style from './Login.module.scss';
 import ActionButton from '../ActionButton/ActionButton';
-import Axios from '../../api';
+import Axios from '../../utils/api';
 import { AxiosError } from 'axios';
-import Error from '../Error/Error';
 import FetchError from '../FetchError/FetchError';
 
 type State = {

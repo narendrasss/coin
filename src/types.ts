@@ -34,6 +34,5 @@ export interface Transaction {
 export interface Category {
   name: string;
   amount: number;
-  transactions: Transaction[];
   spent?: number;
 }

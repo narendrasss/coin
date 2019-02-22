@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
-import Axios from '../../api';
+import Axios from '../../utils/api';
 import { AxiosError } from 'axios';
 import RegisterInfo from './RegisterInfo/RegisterInfo';
 import RegisterIncome from './RegisterIncome/RegisterIncome';
 import { FixedExpense, Category } from '../../types';
-import RegisterCategory from './RegisterCategory/RegiserCategory';
+import RegisterCategory from './RegisterCategory/RegisterCategory';
 
 type State = {
   name: string;
@@ -41,7 +41,7 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
         amount: 100
       }
     ],
-    categories: []
+    categories: [{ name: '', amount: 0 }]
   } as State;
 
   handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,11 +66,45 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
     this.setState({ fixedExpenses });
   };
 
-  handleDelFixedExpense = (e: React.MouseEvent, idx: number) => {
+  handleDelFixedExpense = (e: React.MouseEvent, name: string) => {
     e.preventDefault();
     const fixedExpenses = this.state.fixedExpenses;
+    const idx = fixedExpenses.findIndex(fe => fe.name === name);
     fixedExpenses.splice(idx, 1);
     this.setState({ fixedExpenses });
+  };
+
+  handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+    const categories = this.state.categories;
+    const expense = categories[idx];
+    if (e.target.type === 'text') {
+      expense.name = e.target.value;
+    } else {
+      expense.amount = +e.target.value;
+    }
+    this.setState({ categories });
+  };
+
+  handleAddCategory = (e: React.MouseEvent, name: string = '', amount: number = 0) => {
+    e.preventDefault();
+
+    const categories = this.state.categories;
+    if (categories[0].name === '') categories.pop();
+
+    categories.push({ name, amount });
+    this.setState({ categories });
+  };
+
+  handleDelCategory = (e: React.MouseEvent, name: string) => {
+    e.preventDefault();
+
+    const categories = this.state.categories;
+    const idx = categories.findIndex(ctg => ctg.name === name);
+    categories.splice(idx, 1);
+
+    if (!categories.length) categories.push({ name: '', amount: 0 });
+
+    this.setState({ categories });
   };
 
   handleSubmit = async () => {
@@ -86,7 +120,15 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
   };
 
   render() {
-    const { name, email, password, passwordConfirm, income, fixedExpenses } = this.state;
+    const {
+      name,
+      email,
+      password,
+      passwordConfirm,
+      income,
+      fixedExpenses,
+      categories
+    } = this.state;
     return (
       <Router>
         <RegisterInfo
@@ -106,7 +148,13 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
           handleAddFixedExpense={this.handleAddFixedExpense}
           handleDelFixedExpense={this.handleDelFixedExpense}
         />
-        <RegisterCategory path="categories" />
+        <RegisterCategory
+          path="categories"
+          categories={categories}
+          onChange={this.handleCategoryChange}
+          onAdd={this.handleAddCategory}
+          onDel={this.handleDelCategory}
+        />
       </Router>
     );
   }

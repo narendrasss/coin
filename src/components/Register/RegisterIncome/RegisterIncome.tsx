@@ -3,7 +3,7 @@ import { RouteComponentProps } from '@reach/router';
 import style from '../Register.module.scss';
 import BackButton from '../../BackButton/BackButton';
 import { FixedExpense } from '../../../types';
-import FixedExpenseInput from './FixedExpenseInput/FixedExpenseInput';
+import NameAmountInput from '../../NameAmountInput/NameAmountInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LinkButton from '../../LinkButton/LinkButton';
 
@@ -13,7 +13,7 @@ type Props = {
   handleTextChange: React.ChangeEventHandler<HTMLInputElement>;
   handleFixedExpenseChange: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
   handleAddFixedExpense: React.MouseEventHandler;
-  handleDelFixedExpense: (e: React.MouseEvent, idx: number) => void;
+  handleDelFixedExpense: (e: React.MouseEvent, name: string) => void;
 };
 
 const RegisterIncome: React.FC<Props & RouteComponentProps> = ({
@@ -44,8 +44,9 @@ const RegisterIncome: React.FC<Props & RouteComponentProps> = ({
       <p>Do you have any fixed expenses per month? If so, what are they?</p>
       <div style={{ margin: '1.5rem 0' }}>
         {fixedExpenses.map(({ name, amount }, index) => (
-          <FixedExpenseInput
+          <NameAmountInput
             key={['fe', index].join('')}
+            title={['expense', 'amount']}
             name={name}
             amount={amount}
             index={index}

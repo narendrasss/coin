@@ -2,21 +2,13 @@ import * as React from 'react';
 import { Router, navigate } from '@reach/router';
 import data from './data';
 import { User, Category, FixedExpense } from './types';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faAngleRight,
-  faAngleDown,
-  faArrowLeft,
-  faArrowRight,
-  faPlus,
-  faTrashAlt
-} from '@fortawesome/free-solid-svg-icons';
 import Budget from './components/Budget/Budget';
 import FixedExpenseForm from './components/FixedExpenseForm/FixedExpenseForm';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import { initIcons } from './utils/icons';
 
-library.add(faAngleRight, faAngleDown, faArrowLeft, faArrowRight, faPlus, faTrashAlt);
+initIcons();
 
 type State = {
   user?: User;
