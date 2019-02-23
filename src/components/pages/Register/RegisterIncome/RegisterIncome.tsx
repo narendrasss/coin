@@ -4,15 +4,15 @@ import style from '../Register.module.scss';
 import { LinkButton, BackButton } from '../../../buttons';
 import { FixedExpense } from '../../../../types';
 import { NameAmountInput } from '../../../form';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AddButton from '../../../buttons/AddButton/AddButton';
 
 type Props = {
   income: number;
   fixedExpenses: FixedExpense[];
   handleTextChange: React.ChangeEventHandler<HTMLInputElement>;
   handleFixedExpenseChange: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
-  handleAddFixedExpense: React.MouseEventHandler;
-  handleDelFixedExpense: (e: React.MouseEvent, name: string) => void;
+  handleFixedExpenseAdd: React.MouseEventHandler;
+  handleFixedExpenseDelete: (e: React.MouseEvent, name: string) => void;
 };
 
 const RegisterIncome: React.FC<Props & RouteComponentProps> = ({
@@ -20,8 +20,8 @@ const RegisterIncome: React.FC<Props & RouteComponentProps> = ({
   fixedExpenses,
   handleTextChange,
   handleFixedExpenseChange,
-  handleAddFixedExpense,
-  handleDelFixedExpense
+  handleFixedExpenseAdd,
+  handleFixedExpenseDelete
 }) => (
   <main className={style.container}>
     <BackButton to="/register" />
@@ -50,20 +50,12 @@ const RegisterIncome: React.FC<Props & RouteComponentProps> = ({
             amount={amount}
             index={index}
             handler={handleFixedExpenseChange}
-            onDelete={handleDelFixedExpense}
+            onDelete={handleFixedExpenseDelete}
           />
         ))}
       </div>
     </form>
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <button
-        style={{ marginBottom: '1.5rem' }}
-        onClick={handleAddFixedExpense}
-        className={style.addBtn}
-      >
-        <FontAwesomeIcon icon="plus" size="lg" />
-      </button>
-    </div>
+    <AddButton onAdd={handleFixedExpenseAdd} />
     <LinkButton
       to="../categories"
       icon="arrow-right"

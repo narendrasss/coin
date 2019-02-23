@@ -7,29 +7,48 @@ import RegisterCategory from './RegisterCategory/RegisterCategory';
 import RegisterGoal from './RegisterGoal/RegisterGoal';
 import moment from 'moment';
 
-type State = {
+type InfoState = {
+  [key: string]: string;
   name: string;
   email: string;
   password: string;
   passwordConfirm: string;
-  income: number;
-  budget: number;
-  fixedExpenses: FixedExpense[];
-  categories: Category[];
-  goalFor: string;
-  goalAmount: number;
-  goalDue: string;
-  goalPayment: number;
 };
 
-class Register extends React.Component<RouteComponentProps, Partial<State>> {
+type IncomeState = {
+  [key: string]: number;
+  income: number;
+  budget: number;
+};
+
+type GoalState = {
+  [key: string]: string | number;
+  goal: string;
+  amount: number;
+  due: string;
+  payment: number;
+};
+
+type RegisterState = {
+  info: InfoState;
+  income: IncomeState;
+  fixedExpenses: FixedExpense[];
+  categories: Category[];
+  goal: GoalState;
+};
+
+class Register extends React.Component<RouteComponentProps, Partial<RegisterState>> {
   state = {
-    name: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-    income: 0,
-    budget: 0,
+    info: {
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirm: ''
+    },
+    income: {
+      income: 0,
+      budget: 0
+    },
     fixedExpenses: [
       {
         name: 'Rent',
@@ -45,143 +64,108 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
       }
     ],
     categories: [{ name: '', amount: 0 }],
-    goalFor: '',
-    goalAmount: 0,
-    goalDue: '',
-    goalPayment: 0
-  } as State;
+    goal: {
+      goal: '',
+      amount: 0,
+      due: '',
+      payment: 0
+    }
+  } as RegisterState;
 
-  handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ [e.target.id]: e.target.value });
+  handleTextChange = (
+    group: 'info' | 'income' | 'goal'
+  ): React.ChangeEventHandler<HTMLInputElement> => e => {
+    const page = this.state[group];
+    page[e.target.id] = e.target.value;
+    this.setState({ [group]: page });
   };
 
-  handleFixedExpenseChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
-    const fixedExpenses = this.state.fixedExpenses;
-    const expense = fixedExpenses[idx];
+  handleArrayChange = (group: 'fixedExpenses' | 'categories') => (
+    e: React.ChangeEvent<HTMLInputElement>,
+    idx: number
+  ) => {
+    const arr = this.state[group];
+    const el = arr[idx];
     if (e.target.type === 'text') {
-      expense.name = e.target.value;
+      el.name = e.target.value;
     } else {
-      expense.amount = +e.target.value;
+      el.amount = +e.target.value;
     }
-    this.setState({ fixedExpenses });
+    this.setState({ [group]: arr });
   };
 
-  handleAddFixedExpense: React.MouseEventHandler = e => {
-    e.preventDefault();
-    const fixedExpenses = this.state.fixedExpenses;
-    fixedExpenses.push({ name: '', amount: 0 });
-    this.setState({ fixedExpenses });
-  };
-
-  handleDelFixedExpense = (e: React.MouseEvent, name: string) => {
-    e.preventDefault();
-    const fixedExpenses = this.state.fixedExpenses;
-    const idx = fixedExpenses.findIndex(fe => fe.name === name);
-    fixedExpenses.splice(idx, 1);
-    this.setState({ fixedExpenses });
-  };
-
-  handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
-    const categories = this.state.categories;
-    const expense = categories[idx];
-    if (e.target.type === 'text') {
-      expense.name = e.target.value;
-    } else {
-      expense.amount = +e.target.value;
-    }
-    this.setState({ categories });
-  };
-
-  handleAddCategory = (e: React.MouseEvent, name: string = '', amount: number = 0) => {
+  handleArrayAdd = (group: 'fixedExpenses' | 'categories') => (
+    e: React.MouseEvent,
+    name: string = '',
+    amount: number = 0
+  ) => {
     e.preventDefault();
 
-    const categories = this.state.categories;
-    if (categories[0].name === '') categories.pop();
+    const arr = this.state[group];
+    if (arr[0].name === '') arr.pop();
 
-    categories.push({ name, amount });
-    this.setState({ categories });
+    arr.push({ name, amount });
+    this.setState({ [group]: arr });
   };
 
-  handleDelCategory = (e: React.MouseEvent, name: string) => {
+  handleArrayDelete = (group: 'fixedExpenses' | 'categories') => (
+    e: React.MouseEvent,
+    name: string
+  ) => {
     e.preventDefault();
 
-    const categories = this.state.categories;
-    const idx = categories.findIndex(ctg => ctg.name === name);
-    categories.splice(idx, 1);
-
-    if (!categories.length) categories.push({ name: '', amount: 0 });
-
-    this.setState({ categories });
-  };
-
-  calculateGoalPayment = () => {
-    const { goalAmount, goalDue } = this.state;
-    if (goalDue.length) {
-      const months = moment(goalDue).diff(moment(), 'month');
-      this.setState({ goalPayment: goalAmount / months });
-    }
+    const arr = this.state[group];
+    const idx = arr.findIndex((el: FixedExpense | Category) => el.name === name);
+    arr.splice(idx, 1);
+    this.setState({ [group]: arr });
   };
 
   handleGoalAmountChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    this.setState({ goalAmount: +e.target.value }, this.calculateGoalPayment);
+    this.setState({ [this.state.goal.amount]: +e.target.value }, this.calculateGoalPayment);
   };
 
   handleGoalDueChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    this.setState({ goalDue: e.target.value }, this.calculateGoalPayment);
+    this.setState({ [this.state.goal.due]: e.target.value }, this.calculateGoalPayment);
   };
 
   handleSubmit = () => {};
 
+  calculateGoalPayment = () => {
+    const { goal } = this.state;
+    if (goal.due.length) {
+      const months = moment(goal.due).diff(moment(), 'month');
+      this.setState({ [goal.payment]: goal.amount / months });
+    }
+  };
+
   render() {
-    const {
-      name,
-      email,
-      password,
-      passwordConfirm,
-      income,
-      fixedExpenses,
-      categories,
-      goalFor,
-      goalAmount,
-      goalDue,
-      goalPayment
-    } = this.state;
+    const { info, income, fixedExpenses, categories, goal } = this.state;
     return (
       <Router>
-        <RegisterInfo
-          path="/"
-          name={name}
-          email={email}
-          password={password}
-          passwordConfirm={passwordConfirm}
-          handleTextChange={this.handleTextChange}
-        />
+        <RegisterInfo path="/" handleTextChange={this.handleTextChange('info')} {...info} />
         <RegisterIncome
           path="income"
-          income={income}
           fixedExpenses={fixedExpenses}
-          handleTextChange={this.handleTextChange}
-          handleFixedExpenseChange={this.handleFixedExpenseChange}
-          handleAddFixedExpense={this.handleAddFixedExpense}
-          handleDelFixedExpense={this.handleDelFixedExpense}
+          handleTextChange={this.handleTextChange('income')}
+          handleFixedExpenseChange={this.handleArrayChange('fixedExpenses')}
+          handleFixedExpenseAdd={this.handleArrayAdd('fixedExpenses')}
+          handleFixedExpenseDelete={this.handleArrayDelete('fixedExpenses')}
+          {...income}
         />
         <RegisterCategory
           path="categories"
           categories={categories}
-          onChange={this.handleCategoryChange}
-          onAdd={this.handleAddCategory}
-          onDel={this.handleDelCategory}
+          handleCategoryChange={this.handleArrayChange('categories')}
+          handleCategoryAdd={this.handleArrayAdd('categories')}
+          handleCategoryDelete={this.handleArrayDelete('categories')}
         />
         <RegisterGoal
           path="goal"
-          goalFor={goalFor}
-          goalAmount={goalAmount}
-          goalDue={goalDue}
-          goalPayment={goalPayment}
-          onForChange={this.handleTextChange}
-          onDueChange={this.handleGoalDueChange}
-          onNumChange={this.handleGoalAmountChange}
-          onSubmit={this.handleSubmit}
+          handleGoalChange={this.handleTextChange('goal')}
+          handleDueChange={this.handleGoalDueChange}
+          handleAmountChange={this.handleGoalAmountChange}
+          handleSubmit={this.handleSubmit}
+          {...goal}
         />
       </Router>
     );

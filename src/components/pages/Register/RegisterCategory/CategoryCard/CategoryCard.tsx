@@ -6,17 +6,17 @@ type Props = {
   name: string;
   index: number;
   onAdd: (e: React.MouseEvent, name?: string, amount?: number) => void;
-  onDel: (e: React.MouseEvent, name: string) => void;
+  onDelete: (e: React.MouseEvent, name: string) => void;
 };
 
-const CategoryCard: React.FC<Props> = ({ name, onAdd, onDel }) => {
+const CategoryCard: React.FC<Props> = ({ name, onAdd, onDelete }) => {
   const [clicked, setClicked] = React.useState(false);
 
   const handleClick: React.MouseEventHandler = e => {
     const updateClick = !clicked;
     if (updateClick) {
       onAdd(e, name);
-    } else onDel(e, name);
+    } else onDelete(e, name);
     setClicked(updateClick);
   };
 

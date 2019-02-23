@@ -1,0 +1,10 @@
+@import '../../../styles/settings';
+
+.btn {
+  color: white;
+  background: $secondary;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}

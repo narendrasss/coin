@@ -5,25 +5,25 @@ import { BackButton, ActionButton } from '../../../buttons';
 import { Tip } from '../../../general';
 
 type Props = {
-  goalFor: string;
-  goalAmount: number;
-  goalDue: string;
-  goalPayment: number;
-  onForChange: React.ChangeEventHandler<HTMLInputElement>;
-  onDueChange: React.ChangeEventHandler<HTMLInputElement>;
-  onNumChange: React.ChangeEventHandler<HTMLInputElement>;
-  onSubmit: () => void;
+  goal: string;
+  amount: number;
+  due: string;
+  payment: number;
+  handleGoalChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleDueChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleAmountChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleSubmit: () => void;
 };
 
 const RegisterGoal: React.FC<Props & RouteComponentProps> = ({
-  goalFor,
-  goalAmount,
-  goalDue,
-  goalPayment,
-  onForChange,
-  onDueChange,
-  onNumChange,
-  onSubmit
+  goal,
+  amount,
+  due,
+  payment,
+  handleGoalChange,
+  handleDueChange,
+  handleAmountChange,
+  handleSubmit
 }) => {
   return (
     <main className={style.container}>
@@ -33,43 +33,42 @@ const RegisterGoal: React.FC<Props & RouteComponentProps> = ({
         <p className={style.subtitle}>Step 4 of 4 &mdash; Goal</p>
         <p className={style.text}>Last one - we promise!</p>
       </header>
-      <form className={style.form} onSubmit={onSubmit}>
-        <label htmlFor="goalFor">
+      <form className={style.form} onSubmit={handleSubmit}>
+        <label htmlFor="goal">
           What do you want to save for?
           <input
             className={style.inputActive}
-            id="goalFor"
+            id="goal"
             type="text"
-            value={goalFor}
-            onChange={onForChange}
+            value={goal}
+            onChange={handleGoalChange}
           />
         </label>
-        <label htmlFor="goalAmount">
+        <label htmlFor="amount">
           How much do you need?
           <input
             className={style.inputActive}
-            id="goalAmount"
+            id="amount"
             type="number"
-            value={goalAmount ? goalAmount : ''}
-            onChange={onNumChange}
+            value={amount ? amount : ''}
+            onChange={handleAmountChange}
           />
         </label>
-        <label htmlFor="goalDue">
+        <label htmlFor="due">
           When do you need it by?
           <input
             className={style.inputActive}
-            id="goalDue"
+            id="due"
             type="date"
-            value={goalDue}
-            onChange={onDueChange}
+            value={due}
+            onChange={handleDueChange}
           />
         </label>
         <Tip>
-          You'll need to save{' '}
-          {goalPayment.toLocaleString('en', { style: 'currency', currency: 'usd' })} per month to
-          make this goal. Don't worry, you got this!
+          You'll need to save {payment.toLocaleString('en', { style: 'currency', currency: 'usd' })}{' '}
+          per month to make this goal. Don't worry, you got this!
         </Tip>
-        <ActionButton onclick={onSubmit}>Sign up</ActionButton>
+        <ActionButton onclick={handleSubmit}>Sign up</ActionButton>
       </form>
     </main>
   );

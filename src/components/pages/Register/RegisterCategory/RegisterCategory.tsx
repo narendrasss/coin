@@ -11,16 +11,16 @@ import { Tip } from '../../../general';
 
 type Props = {
   categories: Category[];
-  onChange: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
-  onAdd: React.MouseEventHandler;
-  onDel: (e: React.MouseEvent, name: string) => void;
+  handleCategoryChange: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
+  handleCategoryAdd: React.MouseEventHandler;
+  handleCategoryDelete: (e: React.MouseEvent, name: string) => void;
 };
 
 const RegisterCategory: React.FC<Props & RouteComponentProps> = ({
   categories,
-  onChange,
-  onAdd,
-  onDel
+  handleCategoryChange,
+  handleCategoryAdd,
+  handleCategoryDelete
 }) => (
   <main className={style.container}>
     <BackButton to="income" />
@@ -36,8 +36,8 @@ const RegisterCategory: React.FC<Props & RouteComponentProps> = ({
             key={['cc', index].join('')}
             name={name}
             index={index}
-            onAdd={onAdd}
-            onDel={onDel}
+            onAdd={handleCategoryAdd}
+            onDelete={handleCategoryDelete}
           />
         ))}
       </div>
@@ -49,8 +49,8 @@ const RegisterCategory: React.FC<Props & RouteComponentProps> = ({
             name={name}
             amount={amount}
             index={index}
-            handler={onChange}
-            onDelete={onDel}
+            handler={handleCategoryChange}
+            onDelete={handleCategoryDelete}
           />
         ))}
       </div>
