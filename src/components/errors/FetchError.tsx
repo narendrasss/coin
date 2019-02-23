@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from '@reach/router';
-import Error from '../Error/Error';
+import Error from './Error/Error';
 
 type Props = {
   code: number;

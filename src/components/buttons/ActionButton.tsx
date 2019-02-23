@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../Button/Button';
+import Button from './Button/Button';
 
 interface Props {
   onclick?: () => void;
@@ -10,7 +10,12 @@ class ActionButton extends React.Component<Props, {}> {
   public render() {
     const { onclick, style, children } = this.props;
     return (
-      <div onClick={onclick}>
+      <div
+        onClick={e => {
+          e.preventDefault();
+          if (onclick) onclick();
+        }}
+      >
         <Button style={{ display: 'flex', justifyContent: 'center' }}>{children}</Button>
       </div>
     );

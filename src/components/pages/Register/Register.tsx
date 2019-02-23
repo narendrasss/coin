@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
-import Axios from '../../../utils/api';
-import { AxiosError } from 'axios';
 import { FixedExpense, Category, Goal } from '../../../types';
 import RegisterInfo from './RegisterInfo/RegisterInfo';
 import RegisterIncome from './RegisterIncome/RegisterIncome';
@@ -22,7 +20,6 @@ type State = {
   goalAmount: number;
   goalDue: string;
   goalPayment: number;
-  error?: AxiosError;
 };
 
 class Register extends React.Component<RouteComponentProps, Partial<State>> {
@@ -118,7 +115,7 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
   };
 
   calculateGoalPayment = () => {
-    const { goalAmount, goalDue, goalPayment } = this.state;
+    const { goalAmount, goalDue } = this.state;
     if (goalDue.length) {
       const months = moment(goalDue).diff(moment(), 'month');
       this.setState({ goalPayment: goalAmount / months });
@@ -133,17 +130,7 @@ class Register extends React.Component<RouteComponentProps, Partial<State>> {
     this.setState({ goalDue: e.target.value }, this.calculateGoalPayment);
   };
 
-  handleSubmit = async () => {
-    const { email, password } = this.state;
-    try {
-      const response = await Axios.post('/login', { email, password });
-      const token = response.data;
-      localStorage.setItem('token', token);
-    } catch (error) {
-      console.error(error);
-      this.setState({ error });
-    }
-  };
+  handleSubmit = () => {};
 
   render() {
     const {

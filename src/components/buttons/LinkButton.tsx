@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from '@reach/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import Button from '../Button/Button';
+import Button from './Button/Button';
 
 interface Props {
   to: string;
