@@ -72,6 +72,8 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
     }
   } as RegisterState;
 
+  /* Event handlers */
+
   handleTextChange = (
     group: 'info' | 'income' | 'goal'
   ): React.ChangeEventHandler<HTMLInputElement> => e => {
@@ -117,18 +119,26 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
     const arr = this.state[group];
     const idx = arr.findIndex((el: FixedExpense | Category) => el.name === name);
     arr.splice(idx, 1);
+
+    if (!arr.length) arr.push({ name: '', amount: 0 });
     this.setState({ [group]: arr });
   };
 
   handleGoalAmountChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    this.setState({ [this.state.goal.amount]: +e.target.value }, this.calculateGoalPayment);
+    const { goal } = this.state;
+    goal.amount = +e.target.value;
+    this.setState({ goal }, this.calculateGoalPayment);
   };
 
   handleGoalDueChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    this.setState({ [this.state.goal.due]: e.target.value }, this.calculateGoalPayment);
+    const { goal } = this.state;
+    goal.due = e.target.value;
+    this.setState({ goal }, this.calculateGoalPayment);
   };
 
   handleSubmit = () => {};
+
+  /* Helpers */
 
   calculateGoalPayment = () => {
     const { goal } = this.state;
