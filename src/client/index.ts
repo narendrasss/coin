@@ -1,11 +1,13 @@
-import Axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import Axios, { AxiosInstance, AxiosResponse } from 'axios';
 import {
   CoinError,
   IUser,
   ICategory,
   IFixedExpense,
   ITransaction,
-  GetTransactionOptions
+  GetTransactionOptions,
+  CoinClientOptions,
+  CoinResponse
 } from './types';
 
 const parseError = (res: AxiosResponse): CoinError => {
@@ -14,12 +16,13 @@ const parseError = (res: AxiosResponse): CoinError => {
     : { code: 500, message: 'Oops, something went wrong.' };
 };
 
-const api = (client: AxiosInstance) => {
-  let token: string;
+const api = (client: AxiosInstance, key?: string) => {
+  let token: string | null | undefined = key;
 
   const get = (url: string, opts?: any) => {
     if (!token) {
-      return new Promise((resolve, reject) => reject('Please login.'));
+      token = localStorage.getItem('token');
+      if (!token) return new Promise((resolve, reject) => reject('Please login.'));
     }
     const finalOpts = {
       headers: { authorization: `Bearer ${token}` },
@@ -29,67 +32,68 @@ const api = (client: AxiosInstance) => {
       client
         .get(url, finalOpts)
         .then(res => resolve(res.data))
-        .catch(err => reject(parseError(err)));
+        .catch(err => reject(parseError(err.response)));
     });
   };
 
   const post = (url: string, opts?: any) => {
     if (!token) {
-      return new Promise((resolve, reject) => reject('Please login.'));
+      token = localStorage.getItem('token');
+      if (!token) return new Promise((resolve, reject) => reject('Please login.'));
     }
     const headers = { authorization: `Bearer ${token}` };
     return new Promise((resolve, reject) => {
       client
         .post(url, opts, { headers })
         .then(res => resolve(res.data))
-        .catch(err => reject(parseError(err)));
+        .catch(err => reject(parseError(err.response)));
     });
   };
 
   const put = (url: string, opts?: any) => {
     if (!token) {
-      return new Promise((resolve, reject) => reject('Please login.'));
+      token = localStorage.getItem('token');
+      if (!token) return new Promise((resolve, reject) => reject('Please login.'));
     }
     const headers = { authorization: `Bearer ${token}` };
     return new Promise((resolve, reject) => {
       client
         .put(url, opts, { headers })
         .then(res => resolve(res.data))
-        .catch(err => reject(parseError(err)));
+        .catch(err => reject(parseError(err.response)));
     });
   };
 
   const del = (url: string) => {
     if (!token) {
-      return new Promise((resolve, reject) => reject('Please login.'));
+      token = localStorage.getItem('token');
+      if (!token) return new Promise((resolve, reject) => reject('Please login.'));
     }
     const headers = { authorization: `Bearer ${token}` };
     return new Promise((resolve, reject) => {
       client
         .delete(url, { headers })
         .then(res => resolve(res.data))
-        .catch(err => reject(parseError(err)));
+        .catch(err => reject(parseError(err.response)));
     });
   };
 
   return {
     async register(opts: Partial<IUser>) {
-      try {
-        const res = await client.post('/register', opts);
-        token = res.data.token;
-      } catch (e) {
-        console.error(e);
-        return parseError(e.response);
-      }
+      return new Promise((resolve, reject) => {
+        client
+          .post('/register', opts)
+          .then(res => resolve(res.data))
+          .catch(err => reject({ error: parseError(err.response) }));
+      }) as Promise<CoinResponse>;
     },
     async login(email: string, password: string) {
-      try {
-        const res = await client.post('/login', { email, password });
-        token = res.data.token;
-      } catch (e) {
-        console.error(e);
-        return parseError(e.response);
-      }
+      return new Promise((resolve, reject) => {
+        client
+          .post('/login', { email, password })
+          .then(res => resolve(res.data.token))
+          .catch(err => reject({ error: parseError(err.response) }));
+      }) as Promise<CoinResponse>;
     },
     user: {
       me() {
@@ -153,5 +157,10 @@ const api = (client: AxiosInstance) => {
   };
 };
 
-export default (url: string = 'http://localhost:3001/api', opts?: AxiosRequestConfig) =>
-  api(Axios.create({ url, ...opts }));
+export default (opts?: CoinClientOptions) => {
+  const url = opts && opts.url ? opts.url : 'http://localhost:3001/api';
+  const axiosOptions = opts && opts.opts ? opts.opts : {};
+  const token = opts && opts.token ? opts.token : undefined;
+
+  return api(Axios.create({ url, ...axiosOptions }), token);
+};

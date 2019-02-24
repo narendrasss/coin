@@ -1,3 +1,5 @@
+import { AxiosRequestConfig } from 'axios';
+
 export interface IUser {
   email: string;
   password: string;
@@ -42,10 +44,16 @@ export type GetTransactionOptions = {
 export interface CoinResponse {
   token?: string;
   data?: any;
-  error?: any;
+  error?: CoinError;
 }
 
 export interface CoinError {
   code: number;
   message: string;
+}
+
+export interface CoinClientOptions {
+  url?: string;
+  token?: string;
+  opts: AxiosRequestConfig;
 }

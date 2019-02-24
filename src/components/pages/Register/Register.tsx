@@ -8,11 +8,12 @@ import RegisterGoal from './RegisterGoal/RegisterGoal';
 import moment from 'moment';
 
 type InfoState = {
-  [key: string]: string;
+  [key: string]: string | boolean;
   name: string;
   email: string;
   password: string;
   passwordConfirm: string;
+  success: boolean;
 };
 
 type IncomeState = {
@@ -43,7 +44,8 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
       name: '',
       email: '',
       password: '',
-      passwordConfirm: ''
+      passwordConfirm: '',
+      success: false
     },
     income: {
       income: 0,
@@ -124,6 +126,12 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
     this.setState({ [group]: arr });
   };
 
+  toggleSuccess = (group: 'info' | 'income' | 'goal') => () => {
+    const page = this.state[group];
+    page.success = !page.success;
+    this.setState({ [group]: page });
+  };
+
   handleGoalAmountChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     const { goal } = this.state;
     goal.amount = +e.target.value;
@@ -152,7 +160,12 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
     const { info, income, fixedExpenses, categories, goal } = this.state;
     return (
       <Router>
-        <RegisterInfo path="/" handleTextChange={this.handleTextChange('info')} {...info} />
+        <RegisterInfo
+          path="/"
+          handleTextChange={this.handleTextChange('info')}
+          toggleSuccess={this.toggleSuccess('info')}
+          {...info}
+        />
         <RegisterIncome
           path="income"
           fixedExpenses={fixedExpenses}

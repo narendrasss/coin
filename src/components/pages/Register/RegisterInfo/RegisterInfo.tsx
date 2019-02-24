@@ -3,13 +3,11 @@ import { RouteComponentProps, navigate } from '@reach/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from '../Register.module.scss';
 import { SubmitButton, LinkButton } from '../../../buttons';
-import Axios from '../../../../utils/api';
 import { Error } from '../../../errors';
-import { AxiosError } from 'axios';
+import coin from '../../../../client';
+import { CoinError } from '../../../../client/types';
 
-type IError = {
-  message?: string;
-};
+const client = coin();
 
 type Props = {
   name: string;
@@ -17,26 +15,32 @@ type Props = {
   password: string;
   passwordConfirm: string;
   handleTextChange: React.ChangeEventHandler<HTMLInputElement>;
+  toggleSuccess: () => void;
+  success: boolean;
 };
 
 type State = {
   loading: boolean;
-  success: boolean;
-  errors?: IError | AxiosError;
+  errors?: CoinError;
 };
 
 class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
   state = {
     loading: false,
-    success: false
+    errors: {}
   } as State;
 
-  validate = (): [boolean, IError?] => {
+  validate = (): [boolean, CoinError?] => {
     const { password, passwordConfirm } = this.props;
     if (password !== passwordConfirm) {
-      return [false, { message: 'Passwords must match' }];
+      return [false, { code: 0, message: 'Passwords must match' }];
     }
     return [true];
+  };
+
+  handleTextChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    this.setState({ errors: {} as CoinError });
+    this.props.handleTextChange(e);
   };
 
   handleSubmit: React.FormEventHandler = async e => {
@@ -45,25 +49,22 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
     const [isValid, errors] = this.validate();
     if (!isValid) return this.setState({ errors });
 
-    const { name, email, password } = this.props;
-    try {
-      await this.setState({ loading: true });
+    await this.setState({ loading: true });
 
-      const response = await Axios.post('/register', { name, email, password });
-      const token = response.data;
-      localStorage.setItem('token', token);
-
-      this.setState({ loading: false, success: true, errors: {} });
-      navigate('register/income');
-    } catch (e) {
-      console.error(e);
-      this.setState({ loading: false, errors: { message: 'Looks like that email was taken.' } });
-    }
+    const { name, email, password, toggleSuccess } = this.props;
+    client
+      .register({ name, email, password })
+      .then(res => {
+        localStorage.setItem('token', res.token!);
+        toggleSuccess();
+        this.setState({ loading: false }, () => navigate('/register/income'));
+      })
+      .catch(err => this.setState({ loading: false, errors: err.error }));
   };
 
   render() {
-    const { name, email, password, passwordConfirm, handleTextChange } = this.props;
-    const { loading, success, errors } = this.state;
+    const { name, email, password, passwordConfirm, success, handleTextChange } = this.props;
+    const { loading, errors } = this.state;
     return (
       <main className={style.container}>
         <header className={style.header}>
@@ -82,7 +83,7 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
               id="name"
               value={name}
               type="text"
-              onChange={handleTextChange}
+              onChange={this.handleTextChange}
               required
             />
           </label>
@@ -93,7 +94,7 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
               id="email"
               value={email}
               type="email"
-              onChange={handleTextChange}
+              onChange={this.handleTextChange}
               required
             />
           </label>
@@ -104,7 +105,7 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
               id="password"
               value={password}
               type="password"
-              onChange={handleTextChange}
+              onChange={this.handleTextChange}
               required
             />
           </label>
@@ -115,14 +116,18 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
               id="passwordConfirm"
               value={passwordConfirm}
               type="password"
-              onChange={handleTextChange}
+              onChange={this.handleTextChange}
               style={{ marginBottom: '2rem' }}
               required
             />
           </label>
           {errors && errors.message ? <Error>{errors.message}</Error> : null}
           {success ? (
-            <LinkButton to="./income" icon="arrow-right" />
+            <LinkButton
+              style={{ display: 'flex', justifyContent: 'center' }}
+              to="./income"
+              icon="arrow-right"
+            />
           ) : (
             <SubmitButton>
               <FontAwesomeIcon icon={loading ? 'spinner' : 'arrow-right'} />
