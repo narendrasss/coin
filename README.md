@@ -1,4 +1,4 @@
-# Finance App
+# Coin
 
 Finance application for managing expenses. Built with Typescript and React. This repo contains the client side code.
 
@@ -6,10 +6,18 @@ Credit to [Najla Sekariyanti](https://najlas.me) for the incredible UI/UX work o
 
 ## Running the App
 
-Clone the repository:
+You would need to first clone the backend server from [here](https://github.com/narendrasss/coin-server):
 
 ```
-$ git clone && cd finance-react
+$ git clone https://github.com/narendrasss/coin-server.git
+```
+
+Then run the server with `yarn dev` or `npm run dev`. The server will start at `localhost:3001`. This url is already listed as a proxy on the react app, so everything should work correctly.
+
+Then clone the repository:
+
+```
+$ git clone https://github.com/narendrasss/coin.git && cd finance-react
 ```
 
 Then start the development server:
