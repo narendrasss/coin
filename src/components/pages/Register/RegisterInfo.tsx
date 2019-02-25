@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { RouteComponentProps, navigate } from '@reach/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import style from '../Register.module.scss';
-import { SubmitButton, LinkButton } from '../../../buttons';
-import { Error } from '../../../errors';
-import coin from '../../../../client';
-import { CoinError } from '../../../../client/types';
+import style from './Register.module.scss';
+import { SubmitButton, LinkButton } from '../../buttons';
+import { Error } from '../../errors';
+import coin from '../../../client';
+import { CoinError } from '../../../client/types';
 
 const client = coin();
 
@@ -43,6 +43,11 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
     this.props.handleTextChange(e);
   };
 
+  handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    if (this.props.success) this.props.toggleSuccess();
+    this.handleTextChange(e);
+  };
+
   handleSubmit: React.FormEventHandler = async e => {
     e.preventDefault();
 
@@ -51,11 +56,10 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
 
     await this.setState({ loading: true });
 
-    const { name, email, password, toggleSuccess } = this.props;
+    const { email, toggleSuccess } = this.props;
     client
-      .register({ name, email, password })
-      .then(res => {
-        localStorage.setItem('token', res.token!);
+      .register({ email })
+      .then(() => {
         toggleSuccess();
         this.setState({ loading: false }, () => navigate('/register/income'));
       })
@@ -63,7 +67,7 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
   };
 
   render() {
-    const { name, email, password, passwordConfirm, success, handleTextChange } = this.props;
+    const { name, email, password, passwordConfirm, success } = this.props;
     const { loading, errors } = this.state;
     return (
       <main className={style.container}>
@@ -94,7 +98,7 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
               id="email"
               value={email}
               type="email"
-              onChange={this.handleTextChange}
+              onChange={this.handleEmailChange}
               required
             />
           </label>

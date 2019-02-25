@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { RouteComponentProps, Router } from '@reach/router';
 import { FixedExpense, Category, Goal } from '../../../types';
-import RegisterInfo from './RegisterInfo/RegisterInfo';
-import RegisterIncome from './RegisterIncome/RegisterIncome';
+import RegisterInfo from './RegisterInfo';
+import RegisterIncome from './RegisterIncome';
 import RegisterCategory from './RegisterCategory/RegisterCategory';
-import RegisterGoal from './RegisterGoal/RegisterGoal';
+import RegisterGoal from './RegisterGoal';
 import moment from 'moment';
 
 type InfoState = {

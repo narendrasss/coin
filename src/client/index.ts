@@ -19,7 +19,7 @@ const parseError = (res: AxiosResponse): CoinError => {
 const api = (client: AxiosInstance, key?: string) => {
   let token: string | null | undefined = key;
 
-  const get = (url: string, opts?: any) => {
+  function get<T>(url: string, opts?: any): Promise<T> {
     if (!token) {
       token = localStorage.getItem('token');
       if (!token) return new Promise((resolve, reject) => reject('Please login.'));
@@ -34,9 +34,9 @@ const api = (client: AxiosInstance, key?: string) => {
         .then(res => resolve(res.data))
         .catch(err => reject(parseError(err.response)));
     });
-  };
+  }
 
-  const post = (url: string, opts?: any) => {
+  function post<T>(url: string, opts?: any): Promise<T> {
     if (!token) {
       token = localStorage.getItem('token');
       if (!token) return new Promise((resolve, reject) => reject('Please login.'));
@@ -48,9 +48,9 @@ const api = (client: AxiosInstance, key?: string) => {
         .then(res => resolve(res.data))
         .catch(err => reject(parseError(err.response)));
     });
-  };
+  }
 
-  const put = (url: string, opts?: any) => {
+  function put<T>(url: string, opts?: any): Promise<T> {
     if (!token) {
       token = localStorage.getItem('token');
       if (!token) return new Promise((resolve, reject) => reject('Please login.'));
@@ -62,9 +62,9 @@ const api = (client: AxiosInstance, key?: string) => {
         .then(res => resolve(res.data))
         .catch(err => reject(parseError(err.response)));
     });
-  };
+  }
 
-  const del = (url: string) => {
+  function del<T>(url: string): Promise<T> {
     if (!token) {
       token = localStorage.getItem('token');
       if (!token) return new Promise((resolve, reject) => reject('Please login.'));
@@ -76,82 +76,82 @@ const api = (client: AxiosInstance, key?: string) => {
         .then(res => resolve(res.data))
         .catch(err => reject(parseError(err.response)));
     });
-  };
+  }
 
   return {
-    async register(opts: Partial<IUser>) {
-      return new Promise((resolve, reject) => {
+    register(opts: Partial<IUser>) {
+      return new Promise<CoinResponse>((resolve, reject) => {
         client
           .post('/register', opts)
-          .then(res => resolve(res.data))
+          .then(res => (console.log(res), resolve(res.data)))
           .catch(err => reject({ error: parseError(err.response) }));
-      }) as Promise<CoinResponse>;
+      });
     },
-    async login(email: string, password: string) {
-      return new Promise((resolve, reject) => {
+    login(email: string, password: string) {
+      return new Promise<CoinResponse>((resolve, reject) => {
         client
           .post('/login', { email, password })
           .then(res => resolve(res.data.token))
           .catch(err => reject({ error: parseError(err.response) }));
-      }) as Promise<CoinResponse>;
+      });
     },
     user: {
       me() {
-        return get('/me') as Promise<IUser>;
+        return get<IUser>('/me');
       },
       update(opts: Partial<IUser>) {
-        return put('/me', opts) as Promise<IUser>;
+        return put<IUser>('/me', opts);
       }
     },
     category: {
       getOne(id: string) {
-        return get(`/ctg/${id}`) as Promise<ICategory>;
+        return get<ICategory>(`/ctg/${id}`);
       },
       getAll() {
-        return get('/ctg') as Promise<ICategory[]>;
+        return get<ICategory[]>('/ctg');
       },
       create(opts: ICategory) {
-        return post('/ctg', opts) as Promise<ICategory>;
+        return post<ICategory>('/ctg', opts);
       },
       update(id: string, opts: Partial<ICategory>) {
-        return put(`/ctg/${id}`, opts) as Promise<ICategory>;
+        return put<ICategory>(`/ctg/${id}`, opts);
       },
       del(id: string) {
-        return del(`/ctg/${id}`) as Promise<ICategory>;
+        return del<ICategory>(`/ctg/${id}`);
       }
     },
     fixedExpenses: {
       getOne(id: string) {
-        return get(`/fe/${id}`) as Promise<IFixedExpense>;
+        return get<IFixedExpense>(`/fe/${id}`);
       },
       getAll() {
-        return get('/fe') as Promise<IFixedExpense[]>;
+        return get<IFixedExpense[]>('/fe');
       },
       create(opts: IFixedExpense) {
-        return post('/fe', opts) as Promise<IFixedExpense>;
+        return post<IFixedExpense>('/fe', opts);
       },
       update(id: string, opts: Partial<IFixedExpense>) {
-        return put(`/fe/${id}`, opts) as Promise<IFixedExpense>;
+        return put<IFixedExpense>(`/fe/${id}`, opts);
       },
       del(id: string) {
-        return del(`/fe/${id}`) as Promise<IFixedExpense>;
+        return del<IFixedExpense>(`/fe/${id}`);
       }
     },
     transactions: {
       getOne(id: string) {
-        return get(`/ctg/${id}`) as Promise<ITransaction>;
+        return get<ITransaction>(`/ctg/${id}`);
       },
       getAll(opts: GetTransactionOptions) {
-        return get('/ctg', opts) as Promise<ITransaction[]>;
+        return get<ITransaction[]>('/ctg', opts);
       },
       create(opts: ITransaction) {
-        return post('/ctg', opts) as Promise<ITransaction>;
+        return post<ITransaction>('/ctg', opts);
       },
       update(id: string, opts: Partial<ITransaction>) {
-        return put(`/ctg/${id}`, opts) as Promise<ITransaction>;
+        return put<ITransaction>(`/ctg/${id}`, opts);
       },
       del(id: string) {
-        return del(`/ctg/${id}`) as Promise<ITransaction>;
+        return del<ITransaction>(`/ctg/${id}`);
       }
     }
   };

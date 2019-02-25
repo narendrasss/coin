@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import style from '../Register.module.scss';
-import { LinkButton, BackButton } from '../../../buttons';
-import { FixedExpense } from '../../../../types';
-import { NameAmountInput } from '../../../form';
-import AddButton from '../../../buttons/AddButton/AddButton';
+import style from './Register.module.scss';
+import { LinkButton, BackButton } from '../../buttons';
+import { FixedExpense } from '../../../types';
+import { NameAmountInput } from '../../form';
+import AddButton from '../../buttons/AddButton/AddButton';
 
 type Props = {
   income: number;

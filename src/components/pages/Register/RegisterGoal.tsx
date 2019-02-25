@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import style from '../Register.module.scss';
-import { BackButton, ActionButton } from '../../../buttons';
-import { Tip } from '../../../general';
+import style from './Register.module.scss';
+import { BackButton, ActionButton } from '../../buttons';
+import { Tip } from '../../general';
 
 type Props = {
   goal: string;
