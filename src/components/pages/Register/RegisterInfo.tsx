@@ -5,7 +5,7 @@ import style from './Register.module.scss';
 import { SubmitButton, LinkButton } from '../../buttons';
 import { Error } from '../../errors';
 import coin from '../../../client';
-import { CoinError } from '../../../client/types';
+import { CoinError } from '../../../types';
 import { TextInput } from '../../form';
 
 const client = coin();

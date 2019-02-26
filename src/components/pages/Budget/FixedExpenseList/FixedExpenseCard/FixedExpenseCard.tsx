@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FixedExpense } from '../../../../../types';
+import { IFixedExpense } from '../../../../../types';
 import { LinkButton } from '../../../../buttons';
 import style from './FixedExpenseCard.module.scss';
 
 type Props = {
-  expense: FixedExpense;
+  expense: IFixedExpense;
 };
 
 type State = {

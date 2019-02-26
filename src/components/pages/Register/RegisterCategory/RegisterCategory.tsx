@@ -2,21 +2,21 @@ import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import style from '../Register.module.scss';
 import localStyle from './RegisterCategory.module.scss';
-import { LinkButton, BackButton } from '../../../buttons';
-import { Category } from '../../../../types';
+import { LinkButton, BackButton, AddButton } from '../../../buttons';
+import { ICategory } from '../../../../types';
 import { NameAmountInput } from '../../../form';
 import { CATEGORY_OPTIONS } from '../../../../utils/constants';
 import CategoryCard from './CategoryCard/CategoryCard';
 import { Tip } from '../../../general';
 
-type Props = {
-  categories: Category[];
+interface RegisterCategoryProps extends RouteComponentProps {
+  categories: ICategory[];
   handleCategoryChange: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
-  handleCategoryAdd: React.MouseEventHandler;
+  handleCategoryAdd: (e: React.MouseEvent, name?: string, amount?: number) => void;
   handleCategoryDelete: (e: React.MouseEvent, name: string) => void;
-};
+}
 
-const RegisterCategory: React.FC<Props & RouteComponentProps> = ({
+const RegisterCategory: React.FC<RegisterCategoryProps> = ({
   categories,
   handleCategoryChange,
   handleCategoryAdd,
@@ -38,22 +38,24 @@ const RegisterCategory: React.FC<Props & RouteComponentProps> = ({
             index={index}
             onAdd={handleCategoryAdd}
             onDelete={handleCategoryDelete}
+            clicked={Boolean(categories.find(ctg => ctg.name === name))}
           />
         ))}
       </div>
       <div>
-        {categories.map(({ name, amount }, index) => (
+        {categories.map(({ name, budget }, index) => (
           <NameAmountInput
             key={['ctg', index].join('')}
             title={['category', 'budget']}
             name={name}
-            amount={amount}
+            amount={budget}
             index={index}
             handler={handleCategoryChange}
             onDelete={handleCategoryDelete}
           />
         ))}
       </div>
+      <AddButton onAdd={handleCategoryAdd} />
       <Tip>We recommend having a maximum of 5 categories so you can focus on what's important.</Tip>
     </form>
     <LinkButton

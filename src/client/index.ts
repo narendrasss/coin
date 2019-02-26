@@ -8,7 +8,7 @@ import {
   GetTransactionOptions,
   CoinClientOptions,
   CoinResponse
-} from './types';
+} from '../types';
 
 const parseError = (res: AxiosResponse): CoinError => {
   return res
@@ -42,6 +42,7 @@ const api = (client: AxiosInstance, key?: string) => {
       if (!token) return new Promise((resolve, reject) => reject('Please login.'));
     }
     const headers = { authorization: `Bearer ${token}` };
+    console.log(opts);
     return new Promise((resolve, reject) => {
       client
         .post(url, opts, { headers })
@@ -97,70 +98,70 @@ const api = (client: AxiosInstance, key?: string) => {
     },
     user: {
       me() {
-        return get<IUser>('/me');
+        return get<IUser>('/api/me');
       },
       update(opts: Partial<IUser>) {
-        return put<IUser>('/me', opts);
+        return put<IUser>('/api/me', opts);
       }
     },
     category: {
       getOne(id: string) {
-        return get<ICategory>(`/ctg/${id}`);
+        return get<ICategory>(`/api/ctg/${id}`);
       },
       getAll() {
-        return get<ICategory[]>('/ctg');
+        return get<ICategory[]>('/api/ctg');
       },
       create(opts: ICategory) {
-        return post<ICategory>('/ctg', opts);
+        return post<ICategory>('/api/ctg', opts);
       },
       update(id: string, opts: Partial<ICategory>) {
-        return put<ICategory>(`/ctg/${id}`, opts);
+        return put<ICategory>(`/api/ctg/${id}`, opts);
       },
       del(id: string) {
-        return del<ICategory>(`/ctg/${id}`);
+        return del<ICategory>(`/api/ctg/${id}`);
       }
     },
     fixedExpenses: {
       getOne(id: string) {
-        return get<IFixedExpense>(`/fe/${id}`);
+        return get<IFixedExpense>(`/api/fe/${id}`);
       },
       getAll() {
-        return get<IFixedExpense[]>('/fe');
+        return get<IFixedExpense[]>('/api/fe');
       },
       create(opts: IFixedExpense) {
-        return post<IFixedExpense>('/fe', opts);
+        return post<IFixedExpense>('/api/fe', opts);
       },
       update(id: string, opts: Partial<IFixedExpense>) {
-        return put<IFixedExpense>(`/fe/${id}`, opts);
+        return put<IFixedExpense>(`/api/fe/${id}`, opts);
       },
       del(id: string) {
-        return del<IFixedExpense>(`/fe/${id}`);
+        return del<IFixedExpense>(`/api/fe/${id}`);
       }
     },
     transactions: {
       getOne(id: string) {
-        return get<ITransaction>(`/ctg/${id}`);
+        return get<ITransaction>(`/api/tr/${id}`);
       },
       getAll(opts: GetTransactionOptions) {
-        return get<ITransaction[]>('/ctg', opts);
+        return get<ITransaction[]>('/api/tr', opts);
       },
       create(opts: ITransaction) {
-        return post<ITransaction>('/ctg', opts);
+        return post<ITransaction>('/api/tr', opts);
       },
       update(id: string, opts: Partial<ITransaction>) {
-        return put<ITransaction>(`/ctg/${id}`, opts);
+        return put<ITransaction>(`/api/tr/${id}`, opts);
       },
       del(id: string) {
-        return del<ITransaction>(`/ctg/${id}`);
+        return del<ITransaction>(`/api/tr/${id}`);
       }
     }
   };
 };
 
 export default (opts?: CoinClientOptions) => {
-  const url = opts && opts.url ? opts.url : 'http://localhost:3001/api';
+  const baseURL = opts && opts.url ? opts.url : 'http://localhost:3001';
   const axiosOptions = opts && opts.opts ? opts.opts : {};
   const token = opts && opts.token ? opts.token : undefined;
 
-  return api(Axios.create({ url, ...axiosOptions }), token);
+  return api(Axios.create({ baseURL, ...axiosOptions }), token);
 };

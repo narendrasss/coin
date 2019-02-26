@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import style from './Register.module.scss';
-import { BackButton, ActionButton } from '../../buttons';
+import { BackButton, SubmitButton } from '../../buttons';
 import { Tip } from '../../general';
+import { TextInput } from '../../form';
+import { CoinError } from '../../../types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Error } from '../../errors';
 
-type Props = {
+interface RegisterGoalProps extends RouteComponentProps {
   goal: string;
   amount: number;
   due: string;
@@ -12,10 +16,12 @@ type Props = {
   handleGoalChange: React.ChangeEventHandler<HTMLInputElement>;
   handleDueChange: React.ChangeEventHandler<HTMLInputElement>;
   handleAmountChange: React.ChangeEventHandler<HTMLInputElement>;
-  handleSubmit: () => void;
-};
+  handleSubmit: React.FormEventHandler;
+  loading: boolean;
+  errors?: CoinError;
+}
 
-const RegisterGoal: React.FC<Props & RouteComponentProps> = ({
+const RegisterGoal: React.FC<RegisterGoalProps> = ({
   goal,
   amount,
   due,
@@ -23,7 +29,9 @@ const RegisterGoal: React.FC<Props & RouteComponentProps> = ({
   handleGoalChange,
   handleDueChange,
   handleAmountChange,
-  handleSubmit
+  handleSubmit,
+  loading,
+  errors
 }) => {
   return (
     <main className={style.container}>
@@ -34,41 +42,32 @@ const RegisterGoal: React.FC<Props & RouteComponentProps> = ({
         <p className={style.text}>Last one - we promise!</p>
       </header>
       <form className={style.form} onSubmit={handleSubmit}>
-        <label htmlFor="goal">
-          What do you want to save for?
-          <input
-            className={style.inputActive}
-            id="goal"
-            type="text"
-            value={goal}
-            onChange={handleGoalChange}
-          />
-        </label>
-        <label htmlFor="amount">
-          How much do you need?
-          <input
-            className={style.inputActive}
-            id="amount"
-            type="number"
-            value={amount ? amount : ''}
-            onChange={handleAmountChange}
-          />
-        </label>
-        <label htmlFor="due">
-          When do you need it by?
-          <input
-            className={style.inputActive}
-            id="due"
-            type="date"
-            value={due}
-            onChange={handleDueChange}
-          />
-        </label>
+        <TextInput
+          label="What do you want to save for?"
+          name="goal"
+          value={goal}
+          onChange={handleGoalChange}
+        />
+        <TextInput
+          label="How much do you need?"
+          name="amount"
+          value={amount ? amount : ''}
+          onChange={handleAmountChange}
+          type="number"
+        />
+        <TextInput
+          label="When do you need it by?"
+          name="due"
+          value={due}
+          onChange={handleDueChange}
+          type="date"
+        />
         <Tip>
           You'll need to save {payment.toLocaleString('en', { style: 'currency', currency: 'usd' })}{' '}
           per month to make this goal. Don't worry, you got this!
         </Tip>
-        <ActionButton onclick={handleSubmit}>Sign up</ActionButton>
+        {errors && errors.message ? <Error>{errors.message}</Error> : null}
+        <SubmitButton>{loading ? <FontAwesomeIcon icon="spinner" /> : 'Sign Up'}</SubmitButton>
       </form>
     </main>
   );

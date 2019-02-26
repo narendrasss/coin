@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { Category, FixedExpense, User } from '../../../types';
+import { ICategory, IFixedExpense, IUser } from '../../../types';
 import { LinkButton, BackButton } from '../../buttons';
 import FixedExpenseList from './FixedExpenseList/FixedExpenseList';
 import style from './Budget.module.scss';
@@ -8,9 +8,9 @@ import { PieChart, GoalTracker } from '../../general';
 import Moment from 'moment';
 
 type Props = {
-  user: User;
-  categories: Category[];
-  fixedExpenses: FixedExpense[];
+  user: IUser;
+  categories: ICategory[];
+  fixedExpenses: IFixedExpense[];
 };
 
 class Budget extends React.Component<Props & RouteComponentProps, {}> {
@@ -21,7 +21,7 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
 
   public render() {
     const { income } = this.props.user;
-    const { funds, goal, due } = this.props.user.goal;
+    const { funds, amount, due } = this.props.user.goal;
     return (
       <div className={style.container}>
         <BackButton to="/" />
@@ -65,7 +65,7 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
           <p className={style.goalTitle}>Savings</p>
           <p className={style.goalDue}>Due: {Moment(due).format('MMMM YYYY')}</p>
         </div>
-        <GoalTracker funds={funds} goal={goal} />
+        <GoalTracker funds={funds!} goal={amount!} />
       </div>
     );
   }

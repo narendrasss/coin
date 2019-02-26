@@ -6,7 +6,7 @@ type AddButtonProps = { onAdd: React.MouseEventHandler };
 
 const AddButton: React.FC<AddButtonProps> = ({ onAdd }) => (
   <div style={{ display: 'flex', justifyContent: 'center' }}>
-    <button style={{ marginBottom: '1.5rem' }} onClick={onAdd} className={style.btn}>
+    <button onClick={onAdd} className={style.btn}>
       <FontAwesomeIcon icon="plus" size="lg" />
     </button>
   </div>

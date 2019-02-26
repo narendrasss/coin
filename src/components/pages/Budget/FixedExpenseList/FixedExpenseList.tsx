@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { FixedExpense } from '../../../../types';
+import { IFixedExpense } from '../../../../types';
 import FixedExpenseCard from './FixedExpenseCard/FixedExpenseCard';
 import style from './FixedExpenseList.module.scss';
 
-class FixedExpenseList extends React.Component<{ expenses: FixedExpense[] }, {}> {
+class FixedExpenseList extends React.Component<{ expenses: IFixedExpense[] }, {}> {
   render() {
     return (
       <div className={style.container}>
