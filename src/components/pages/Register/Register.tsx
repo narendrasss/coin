@@ -39,7 +39,7 @@ type RegisterState = {
 };
 
 class Register extends React.Component<RouteComponentProps, Partial<RegisterState>> {
-  state = {
+  state: RegisterState = {
     info: {
       name: '',
       email: '',
@@ -72,7 +72,7 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
       due: '',
       payment: 0
     }
-  } as RegisterState;
+  };
 
   /* Event handlers */
 
@@ -80,7 +80,7 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
     group: 'info' | 'income' | 'goal'
   ): React.ChangeEventHandler<HTMLInputElement> => e => {
     const page = this.state[group];
-    page[e.target.id] = e.target.value;
+    page[e.target.name] = e.target.value;
     this.setState({ [group]: page });
   };
 

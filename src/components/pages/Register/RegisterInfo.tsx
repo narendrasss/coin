@@ -6,10 +6,11 @@ import { SubmitButton, LinkButton } from '../../buttons';
 import { Error } from '../../errors';
 import coin from '../../../client';
 import { CoinError } from '../../../client/types';
+import { TextInput } from '../../form';
 
 const client = coin();
 
-type Props = {
+interface RegisterInfoProps extends RouteComponentProps {
   name: string;
   email: string;
   password: string;
@@ -17,56 +18,20 @@ type Props = {
   handleTextChange: React.ChangeEventHandler<HTMLInputElement>;
   toggleSuccess: () => void;
   success: boolean;
-};
+}
 
 type State = {
   loading: boolean;
   errors?: CoinError;
 };
 
-class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
-  state = {
+class RegisterInfo extends React.Component<RegisterInfoProps, State> {
+  state: State = {
     loading: false,
-    errors: {}
-  } as State;
-
-  validate = (): [boolean, CoinError?] => {
-    const { password, passwordConfirm } = this.props;
-    if (password !== passwordConfirm) {
-      return [false, { code: 0, message: 'Passwords must match' }];
-    }
-    return [true];
+    errors: {} as CoinError
   };
 
-  handleTextChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    this.setState({ errors: {} as CoinError });
-    this.props.handleTextChange(e);
-  };
-
-  handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    if (this.props.success) this.props.toggleSuccess();
-    this.handleTextChange(e);
-  };
-
-  handleSubmit: React.FormEventHandler = async e => {
-    e.preventDefault();
-
-    const [isValid, errors] = this.validate();
-    if (!isValid) return this.setState({ errors });
-
-    await this.setState({ loading: true });
-
-    const { email, toggleSuccess } = this.props;
-    client
-      .register({ email })
-      .then(() => {
-        toggleSuccess();
-        this.setState({ loading: false }, () => navigate('/register/income'));
-      })
-      .catch(err => this.setState({ loading: false, errors: err.error }));
-  };
-
-  render() {
+  public render() {
     const { name, email, password, passwordConfirm, success } = this.props;
     const { loading, errors } = this.state;
     return (
@@ -79,52 +44,38 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
             to ask.
           </p>
         </header>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="name">
-            Full Name
-            <input
-              className={style.inputActive}
-              id="name"
-              value={name}
-              type="text"
-              onChange={this.handleTextChange}
-              required
-            />
-          </label>
-          <label htmlFor="email">
-            Email
-            <input
-              className={style.inputActive}
-              id="email"
-              value={email}
-              type="email"
-              onChange={this.handleEmailChange}
-              required
-            />
-          </label>
-          <label htmlFor="password">
-            Password
-            <input
-              className={style.inputActive}
-              id="password"
-              value={password}
-              type="password"
-              onChange={this.handleTextChange}
-              required
-            />
-          </label>
-          <label htmlFor="passwordConfirm">
-            Password Confirmation
-            <input
-              className={style.inputActive}
-              id="passwordConfirm"
-              value={passwordConfirm}
-              type="password"
-              onChange={this.handleTextChange}
-              style={{ marginBottom: '2rem' }}
-              required
-            />
-          </label>
+        <form className={style.form} onSubmit={this._handleSubmit}>
+          <TextInput
+            label="Full name"
+            value={name}
+            name="name"
+            onChange={this._handleTextChange}
+            opts={{ required: true }}
+          />
+          <TextInput
+            label="Email"
+            value={email}
+            name="email"
+            onChange={this._handleEmailChange}
+            type="email"
+            opts={{ required: true }}
+          />
+          <TextInput
+            label="Password"
+            value={password}
+            name="password"
+            onChange={this._handleTextChange}
+            type="password"
+            opts={{ required: true }}
+          />
+          <TextInput
+            label="Confirm password"
+            value={passwordConfirm}
+            name="passwordConfirm"
+            onChange={this._handleTextChange}
+            type="password"
+            opts={{ required: true }}
+          />
           {errors && errors.message ? <Error>{errors.message}</Error> : null}
           {success ? (
             <LinkButton
@@ -141,6 +92,42 @@ class RegisterInfo extends React.Component<Props & RouteComponentProps, State> {
       </main>
     );
   }
+
+  private _validatePassword = (): [boolean, CoinError?] => {
+    const { password, passwordConfirm } = this.props;
+    if (password !== passwordConfirm) {
+      return [false, { code: 0, message: 'Passwords must match' }];
+    }
+    return [true];
+  };
+
+  private _handleTextChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    this.setState({ errors: {} as CoinError });
+    this.props.handleTextChange(e);
+  };
+
+  private _handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    if (this.props.success) this.props.toggleSuccess();
+    this._handleTextChange(e);
+  };
+
+  private _handleSubmit: React.FormEventHandler = async e => {
+    e.preventDefault();
+
+    const [isValid, errors] = this._validatePassword();
+    if (!isValid) return this.setState({ errors });
+
+    await this.setState({ loading: true });
+
+    const { email, toggleSuccess } = this.props;
+    client
+      .register({ email })
+      .then(() => {
+        toggleSuccess();
+        this.setState({ loading: false }, () => navigate('/register/income'));
+      })
+      .catch(err => this.setState({ loading: false, errors: err.error }));
+  };
 }
 
 export default RegisterInfo;
