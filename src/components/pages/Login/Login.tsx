@@ -60,23 +60,24 @@ class Login extends React.Component<RouteComponentProps, State> {
     );
   }
 
-  private _handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  private _handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     this.setState({ email: e.target.value });
   };
 
-  private _handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  private _handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     this.setState({ password: e.target.value });
   };
 
-  private _handleSubmit = async () => {
+  private _handleSubmit: React.FormEventHandler = async e => {
+    e.preventDefault();
+
     await this.setState({ loading: true });
     const { email, password } = this.state;
     client
       .login(email, password)
       .then(res => {
         localStorage.setItem('token', res.token!);
-        this.setState({ loading: false });
-        navigate('/home');
+        this.setState({ loading: false }, () => navigate('/home'));
       })
       .catch(err => this.setState({ loading: false, error: err.error }));
   };
