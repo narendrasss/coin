@@ -5,6 +5,7 @@ import { LinkButton, BackButton } from '../../buttons';
 import { IFixedExpense } from '../../../types';
 import { NameAmountInput, TextInput } from '../../form';
 import AddButton from '../../buttons/AddButton/AddButton';
+import MainContainer from '../MainContainer/MainContainer';
 
 interface RegisterIncomeProps extends RouteComponentProps {
   income: number;
@@ -23,7 +24,7 @@ const RegisterIncome: React.FC<RegisterIncomeProps> = ({
   handleFixedExpenseAdd,
   handleFixedExpenseDelete
 }) => (
-  <main className={style.container}>
+  <MainContainer>
     <BackButton to="/register" />
     <header className={style.header}>
       <h1>Create an Account</h1>
@@ -59,7 +60,7 @@ const RegisterIncome: React.FC<RegisterIncomeProps> = ({
       icon="arrow-right"
       style={{ display: 'flex', justifyContent: 'center' }}
     />
-  </main>
+  </MainContainer>
 );
 
 export default RegisterIncome;

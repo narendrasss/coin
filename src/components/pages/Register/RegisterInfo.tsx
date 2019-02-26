@@ -2,11 +2,12 @@ import * as React from 'react';
 import { RouteComponentProps, navigate } from '@reach/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Register.module.scss';
-import { SubmitButton, LinkButton } from '../../buttons';
+import { SubmitButton, LinkButton, BackButton } from '../../buttons';
 import { Error } from '../../errors';
 import coin from '../../../client';
 import { CoinError } from '../../../types';
 import { TextInput } from '../../form';
+import MainContainer from '../MainContainer/MainContainer';
 
 const client = coin();
 
@@ -35,7 +36,8 @@ class RegisterInfo extends React.Component<RegisterInfoProps, State> {
     const { name, email, password, passwordConfirm, success } = this.props;
     const { loading, errors } = this.state;
     return (
-      <main className={style.container}>
+      <MainContainer>
+        <BackButton to="/login" />
         <header className={style.header}>
           <h1>Create an Account</h1>
           <p className={style.subtitle}>Step 1 of 4 &mdash; Personal Information</p>
@@ -89,7 +91,7 @@ class RegisterInfo extends React.Component<RegisterInfoProps, State> {
             </SubmitButton>
           )}
         </form>
-      </main>
+      </MainContainer>
     );
   }
 

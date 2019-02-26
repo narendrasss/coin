@@ -1,82 +1,85 @@
 import * as React from 'react';
-import { RouteComponentProps, Link } from '@reach/router';
+import { RouteComponentProps, Link, navigate } from '@reach/router';
 import style from './Login.module.scss';
-import { ActionButton } from '../../buttons';
-import Axios from '../../../utils/api';
-import { AxiosError } from 'axios';
+import { SubmitButton } from '../../buttons';
 import { FetchError } from '../../errors';
+import coin from '../../../client';
+import MainContainer from '../MainContainer/MainContainer';
+import { CoinError } from '../../../types';
+import { TextInput } from '../../form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const client = coin();
 
 type State = {
   email: string;
   password: string;
-  error?: AxiosError;
+  loading: boolean;
+  error?: CoinError;
 };
 
 class Login extends React.Component<RouteComponentProps, State> {
-  state = {
+  state: State = {
     email: '',
-    password: ''
-  } as State;
-
-  handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ email: e.target.value });
+    password: '',
+    loading: false
   };
 
-  handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ password: e.target.value });
-  };
-
-  handleSubmit = async () => {
-    const { email, password } = this.state;
-    try {
-      const response = await Axios.post('/login', { email, password });
-      const token = response.data;
-      localStorage.setItem('token', token);
-    } catch (error) {
-      console.error(error);
-      this.setState({ error });
-    }
-  };
-
-  render() {
-    const { email, password, error } = this.state;
+  public render() {
+    const { email, password, loading, error } = this.state;
     return (
-      <main className={style.container}>
+      <MainContainer>
         <header className={style.header}>
           <h1>Hey there!</h1>
           <p className={style.subtitle}>Thanks for checking in.</p>
         </header>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="email">
-            Email
-            <input
-              className={email.length ? style.inputActive : style.input}
-              id="email"
-              value={email}
-              type="text"
-              onChange={this.handleEmailChange}
-            />
-          </label>
-          <label htmlFor="password">
-            Password
-            <input
-              className={password.length ? style.inputActive : style.input}
-              id="password"
-              value={password}
-              type="password"
-              onChange={this.handlePasswordChange}
-              style={{ marginBottom: '2rem' }}
-            />
-          </label>
-          {error ? <FetchError code={error.response!.status} /> : null}
-          <ActionButton onclick={this.handleSubmit}>Login</ActionButton>
+        <form className={style.form} onSubmit={this._handleSubmit}>
+          <TextInput
+            label="Email"
+            name="email"
+            value={email}
+            onChange={this._handleEmailChange}
+            type="email"
+            opts={{ required: true }}
+          />
+          <TextInput
+            label="Password"
+            name="password"
+            value={password}
+            onChange={this._handlePasswordChange}
+            type="password"
+            opts={{ required: true }}
+          />
+          {error ? <FetchError code={error.code} /> : null}
+          <SubmitButton>{loading ? <FontAwesomeIcon icon="spinner" /> : 'Login'}</SubmitButton>
         </form>
-        <Link className={style.registerLink} to="/register">
-          Don't have an account with us?
-        </Link>
-      </main>
+        <footer className={style.registerLink}>
+          <Link to="/register">Don't have an account with us?</Link>
+        </footer>
+      </MainContainer>
     );
   }
+
+  private _handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ email: e.target.value });
+  };
+
+  private _handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ password: e.target.value });
+  };
+
+  private _handleSubmit = async () => {
+    await this.setState({ loading: true });
+    const { email, password } = this.state;
+    client
+      .login(email, password)
+      .then(res => {
+        localStorage.setItem('token', res.token!);
+        this.setState({ loading: false });
+        navigate('/home');
+      })
+      .catch(err => this.setState({ loading: false, error: err.error }));
+  };
 }
 
 export default Login;

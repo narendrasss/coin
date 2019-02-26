@@ -7,6 +7,7 @@ import { TextInput } from '../../form';
 import { CoinError } from '../../../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Error } from '../../errors';
+import MainContainer from '../MainContainer/MainContainer';
 
 interface RegisterGoalProps extends RouteComponentProps {
   goal: string;
@@ -34,7 +35,7 @@ const RegisterGoal: React.FC<RegisterGoalProps> = ({
   errors
 }) => {
   return (
-    <main className={style.container}>
+    <MainContainer>
       <BackButton to="categories" />
       <header className={style.header}>
         <h1>Create an Account</h1>
@@ -69,7 +70,7 @@ const RegisterGoal: React.FC<RegisterGoalProps> = ({
         {errors && errors.message ? <Error>{errors.message}</Error> : null}
         <SubmitButton>{loading ? <FontAwesomeIcon icon="spinner" /> : 'Sign Up'}</SubmitButton>
       </form>
-    </main>
+    </MainContainer>
   );
 };
 
