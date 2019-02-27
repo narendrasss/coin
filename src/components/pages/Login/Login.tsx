@@ -76,6 +76,7 @@ class Login extends React.Component<RouteComponentProps, State> {
     client
       .login(email, password)
       .then(res => {
+        localStorage.removeItem('token');
         localStorage.setItem('token', res.token!);
         this.setState({ loading: false }, () => navigate('/home'));
       })

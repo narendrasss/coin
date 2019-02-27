@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RouteComponentProps, Router } from '@reach/router';
+import { RouteComponentProps, Router, navigate } from '@reach/router';
 import { IFixedExpense, ICategory } from '../../../types';
 import RegisterInfo from './RegisterInfo';
 import RegisterIncome from './RegisterIncome';
@@ -240,7 +240,7 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
       });
 
       await Promise.all([...fePromises, ...ctgPromises]);
-      this.setState({ loading: false });
+      this.setState({ loading: false }, () => navigate('/home'));
     } catch (e) {
       this.setState({ loading: false, errors: e.error });
     }

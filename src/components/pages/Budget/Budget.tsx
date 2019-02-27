@@ -65,7 +65,7 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
           <p className={style.goalTitle}>Savings</p>
           <p className={style.goalDue}>Due: {Moment(due).format('MMMM YYYY')}</p>
         </div>
-        <GoalTracker funds={funds!} goal={amount!} />
+        <GoalTracker funds={funds!} amount={amount!} />
       </div>
     );
   }

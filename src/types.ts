@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 export interface IUser {
   email: string;
-  password: string;
+  password?: string;
   name: string;
   income: number;
   goal: {
@@ -54,6 +54,6 @@ export interface CoinError {
 
 export interface CoinClientOptions {
   url?: string;
-  token?: string;
+  token?: string | null;
   opts: AxiosRequestConfig;
 }

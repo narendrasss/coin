@@ -1,7 +1,14 @@
 import * as React from 'react';
 import { Router, navigate } from '@reach/router';
 import { IUser, ICategory, IFixedExpense } from './types';
-import { Budget, FixedExpenseForm, Login, Register } from './components/pages';
+import {
+  Budget,
+  FixedExpenseForm,
+  Login,
+  Register,
+  Dashboard,
+  RedirectContainer
+} from './components/pages';
 import { initIcons } from './utils/icons';
 
 initIcons();
@@ -48,8 +55,10 @@ class App extends React.Component<{}, State> {
   render() {
     return (
       <Router>
+        <RedirectContainer path="/" />
         <Login path="/login" />
         <Register path="/register/*" />
+        <Dashboard path="/home" />
       </Router>
     );
   }

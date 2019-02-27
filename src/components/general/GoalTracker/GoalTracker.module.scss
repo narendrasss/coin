@@ -1,4 +1,5 @@
 .infoWrapper {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -11,4 +12,8 @@
 
 .money {
   font-size: 1.2rem;
+}
+
+.text {
+  font-size: 0.9rem;
 }
