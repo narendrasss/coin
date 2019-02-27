@@ -4,9 +4,6 @@ import MainContainer from '../MainContainer/MainContainer';
 import { IUser, CoinError } from '../../../types';
 import coin from '../../../client';
 import Loading from '../Loading/Loading';
-import { GoalTracker } from '../../general';
-import style from './Dashboard.module.scss';
-import { LinkButton } from '../../buttons';
 
 interface DashboardState extends IUser {
   loading: boolean;
@@ -30,20 +27,13 @@ class Dashboard extends React.Component<RouteComponentProps, Partial<DashboardSt
   state: DashboardState = { ...defaultUser, loading: false };
 
   public render() {
-    const { funds = 0, amount } = this.state.goal;
+    const { name } = this.state;
     return this.state.loading ? (
       <Loading />
     ) : (
       <MainContainer>
         <header>
-          <div className={style.header}>
-            <h1>${(amount - funds).toLocaleString()}</h1>
-            <p>Left until you reach your goal!</p>
-          </div>
-          <GoalTracker funds={funds} amount={amount} />
-          <LinkButton to="/budget" icon="angle-right">
-            View my budget
-          </LinkButton>
+          <h1>Welcome back, {name}</h1>
         </header>
       </MainContainer>
     );
