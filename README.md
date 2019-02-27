@@ -38,7 +38,8 @@ This launches a development server at `localhost:3000`. Visit this page on your 
 
 ### Pages to Implement
 
-- [ ] Onboarding pages
+- [x] Login
+- [x] Onboarding pages
 - [ ] Dashboard (_needs fix_)
   - [ ] Fix styling and component structure
 - [ ] Budget
