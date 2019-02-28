@@ -1,9 +1,13 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { RouteComponentProps, navigate } from '@reach/router';
 import MainContainer from '../MainContainer/MainContainer';
 import { IUser, CoinError } from '../../../types';
 import coin from '../../../client';
 import Loading from '../Loading/Loading';
+import GoalHeader from './GoalHeader/GoalHeader';
+import SummaryContainer from './Summary/SummaryContainer';
+
+const client = coin();
 
 interface DashboardState extends IUser {
   loading: boolean;
@@ -14,6 +18,7 @@ const defaultUser: IUser = {
   email: '',
   name: '',
   income: 0,
+  budget: 0,
   goal: {
     goal: '',
     funds: 0,
@@ -23,18 +28,16 @@ const defaultUser: IUser = {
   }
 };
 
-class Dashboard extends React.Component<RouteComponentProps, Partial<DashboardState>> {
-  state: DashboardState = { ...defaultUser, loading: false };
+class Dashboard extends Component<RouteComponentProps, DashboardState> {
+  state = { ...defaultUser, loading: false };
 
   public render() {
-    const { name } = this.state;
-    return this.state.loading ? (
-      <Loading />
-    ) : (
-      <MainContainer>
-        <header>
-          <h1>Welcome back, {name}</h1>
-        </header>
+    const { budget, goal, loading } = this.state;
+    if (loading) return <Loading />;
+    return (
+      <MainContainer style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <GoalHeader funds={goal.funds!} amount={goal.amount} />
+        <SummaryContainer />
       </MainContainer>
     );
   }
@@ -42,8 +45,6 @@ class Dashboard extends React.Component<RouteComponentProps, Partial<DashboardSt
   public async componentDidMount() {
     const token = localStorage.getItem('token');
     if (!token) navigate('/login');
-
-    const client = coin();
 
     await this.setState({ loading: true });
     try {

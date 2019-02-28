@@ -5,6 +5,7 @@ export interface IUser {
   password?: string;
   name: string;
   income: number;
+  budget: number;
   goal: {
     goal: string;
     funds?: number;
@@ -17,6 +18,7 @@ export interface IUser {
 export interface ICategory {
   name: string;
   budget: number;
+  spent: number;
 }
 
 export interface IFixedExpense {

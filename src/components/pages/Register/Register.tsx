@@ -71,7 +71,7 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
         amount: 100
       }
     ],
-    categories: [{ name: '', budget: 0 }],
+    categories: [{ name: '', budget: 0, spent: 0 }],
     goal: {
       goal: '',
       amount: 0,
@@ -188,7 +188,8 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
     } else {
       categories.push({
         name: name ? name : def.name,
-        budget: amount ? amount : def.amount
+        budget: amount ? amount : def.amount,
+        spent: 0
       });
     }
 
@@ -202,7 +203,7 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
     const idx = categories.findIndex(ctg => ctg.name === name);
     categories.splice(idx, 1);
 
-    if (!categories.length) categories.push({ name: '', budget: 0 });
+    if (!categories.length) categories.push({ name: '', budget: 0, spent: 0 });
     this.setState({ categories });
   };
 

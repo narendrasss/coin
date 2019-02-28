@@ -1,0 +1,49 @@
+@import '../../../../styles/settings';
+
+.container {
+  position: relative;
+  width: 100%;
+  background: #e8e8e859;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 3rem;
+  padding-bottom: 3rem;
+}
+
+.header {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer {
+  position: absolute;
+  padding: 0 3rem;
+  bottom: -2rem;
+  left: 0;
+  display: flex;
+  > * {
+    &:first-child {
+      margin-right: 1rem;
+    }
+  }
+}
+
+.date {
+  opacity: 0.5;
+}
+
+.remainder {
+  text-align: right;
+}
+
+.remainderCaption {
+  opacity: 0.5;
+  font-size: 0.9rem;
+}

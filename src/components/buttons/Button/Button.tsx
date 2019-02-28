@@ -9,12 +9,7 @@ interface Props {
 
 const Button: React.FC<Props> = ({ style, type = 'default', onclick, children }) => {
   return (
-    <button
-      style={style}
-      className={[scss.btn, scss[type]].join(' ')}
-      onClick={onclick}
-      type={type === 'submit' ? 'submit' : undefined}
-    >
+    <button style={style} className={[scss.btn, scss[type]].join(' ')} onClick={onclick}>
       {children}
     </button>
   );

@@ -1,8 +1,12 @@
-import * as React from 'react';
-import style from './MainContainer.module.scss';
+import React, { FC, CSSProperties } from 'react';
+import localStyle from './MainContainer.module.scss';
 
-const MainContainer: React.FC = ({ children }) => (
-  <main className={style.container}>{children}</main>
+type Props = { style?: CSSProperties };
+
+const MainContainer: FC<Props> = ({ style, children }) => (
+  <main style={style} className={localStyle.container}>
+    {children}
+  </main>
 );
 
 export default MainContainer;

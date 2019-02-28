@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosResponse } from 'axios';
+import Axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 import {
   CoinError,
   IUser,
@@ -6,7 +6,6 @@ import {
   IFixedExpense,
   ITransaction,
   GetTransactionOptions,
-  CoinClientOptions,
   CoinResponse
 } from '../types';
 
@@ -16,10 +15,11 @@ const parseError = (res: AxiosResponse): CoinError => {
     : { code: 500, message: 'Oops, something went wrong.' };
 };
 
-const api = (client: AxiosInstance, key?: string) => {
+const api = (client: AxiosInstance) => {
   function get<T>(url: string, opts?: any): Promise<T> {
     const token = localStorage.getItem('token');
-    if (!token) return new Promise((resolve, reject) => reject('Please login.'));
+    if (!token) return new Promise((_, reject) => reject('Please login.'));
+
     const finalOpts = {
       headers: { authorization: `Bearer ${token}` },
       params: opts
@@ -32,9 +32,10 @@ const api = (client: AxiosInstance, key?: string) => {
     });
   }
 
-  function post<T>(url: string, opts?: any): Promise<T> {
+  function post<T>(url: string, opts?: T): Promise<T> {
     const token = localStorage.getItem('token');
-    if (!token) return new Promise((resolve, reject) => reject('Please login.'));
+    if (!token) return new Promise((_, reject) => reject('Please login.'));
+
     const headers = { authorization: `Bearer ${token}` };
     console.log(opts);
     return new Promise((resolve, reject) => {
@@ -45,9 +46,10 @@ const api = (client: AxiosInstance, key?: string) => {
     });
   }
 
-  function put<T>(url: string, opts?: any): Promise<T> {
+  function put<T>(url: string, opts?: Partial<T>): Promise<T> {
     const token = localStorage.getItem('token');
-    if (!token) return new Promise((resolve, reject) => reject('Please login.'));
+    if (!token) return new Promise((_, reject) => reject('Please login.'));
+
     const headers = { authorization: `Bearer ${token}` };
     return new Promise((resolve, reject) => {
       client
@@ -59,7 +61,8 @@ const api = (client: AxiosInstance, key?: string) => {
 
   function del<T>(url: string): Promise<T> {
     const token = localStorage.getItem('token');
-    if (!token) return new Promise((resolve, reject) => reject('Please login.'));
+    if (!token) return new Promise((_, reject) => reject('Please login.'));
+
     const headers = { authorization: `Bearer ${token}` };
     return new Promise((resolve, reject) => {
       client
@@ -148,10 +151,5 @@ const api = (client: AxiosInstance, key?: string) => {
   };
 };
 
-export default (opts?: Partial<CoinClientOptions>) => {
-  const baseURL = opts && opts.url ? opts.url : 'http://localhost:3001';
-  const axiosOptions = opts && opts.opts ? opts.opts : {};
-  const token = opts && opts.token ? opts.token : undefined;
-
-  return api(Axios.create({ baseURL, ...axiosOptions }), token);
-};
+export default (baseURL: string = 'http://localhost:3001', opts?: AxiosRequestConfig) =>
+  api(Axios.create({ baseURL, ...opts }));

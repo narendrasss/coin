@@ -1,0 +1,24 @@
+@import '../../../../styles/settings';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0 3rem;
+  > * {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.header {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  > p {
+    color: #416788;
+    font-weight: 300;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+}

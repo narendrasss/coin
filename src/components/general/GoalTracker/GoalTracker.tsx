@@ -8,7 +8,7 @@ type Props = {
 };
 
 const GoalTracker: React.FC<Props> = ({ funds, amount }) => (
-  <>
+  <div className={style.container}>
     <ProgressBar
       color="linear-gradient(98deg, #416788, #78DEA3)"
       percentage={funds / amount}
@@ -29,7 +29,7 @@ const GoalTracker: React.FC<Props> = ({ funds, amount }) => (
         <p className={style.money}>${amount.toLocaleString()}</p>
       </div>
     </div>
-  </>
+  </div>
 );
 
 export default GoalTracker;
