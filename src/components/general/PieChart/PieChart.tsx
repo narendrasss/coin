@@ -1,24 +1,20 @@
-import * as React from 'react';
-import style from './PieChart.module.scss';
+import React, { FC, CSSProperties } from 'react';
+import localStyle from './PieChart.module.scss';
 
 // TODO: Make this component take data and render correctly (use D3)
 
 type Props = {
   outerRadius: string;
   innerRadius: string;
+  style?: CSSProperties;
 };
 
-class PieChart extends React.Component<Props, {}> {
-  render() {
-    const { outerRadius, innerRadius, children } = this.props;
-    return (
-      <div style={{ width: outerRadius, height: outerRadius }} className={style.outer}>
-        <div style={{ width: innerRadius, height: innerRadius }} className={style.inner}>
-          {children}
-        </div>
-      </div>
-    );
-  }
-}
+const PieChart: FC<Props> = ({ outerRadius, innerRadius, style, children }) => (
+  <div style={{ ...style, width: outerRadius, height: outerRadius }} className={localStyle.outer}>
+    <div style={{ width: innerRadius, height: innerRadius }} className={localStyle.inner}>
+      {children}
+    </div>
+  </div>
+);
 
 export default PieChart;

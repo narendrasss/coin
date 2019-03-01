@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import moment from 'moment';
 import { ICategory, CoinError } from '../../../../types';
-import { Spinner } from '../../../general';
+import { Spinner, PieChart } from '../../../general';
 import style from './Summary.module.scss';
 import CategoryList from './CategoryList/CategoryList';
 import { LinkButton } from '../../../buttons';
@@ -30,6 +30,10 @@ const Summary: FC<Props> = ({ categories, loading, errors }) => {
                 <p className={style.remainderCaption}>Left to spend</p>
               </div>
             </header>
+            <PieChart style={{ marginBottom: '2rem' }} outerRadius="16rem" innerRadius="10rem">
+              <h1 className={style.remainder}>${totalSpent.toLocaleString()}</h1>
+              <p className={style.remainderCaption}>Spent</p>
+            </PieChart>
             <CategoryList categories={categories} />
             <footer className={style.footer}>
               <LinkButton to="/">See all categories</LinkButton>
