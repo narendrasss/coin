@@ -1,5 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
+export type Model = IUser | ICategory | IFixedExpense | ITransaction;
+
 export interface IUser {
   email: string;
   password?: string;
@@ -21,6 +23,10 @@ export interface ICategory {
   spent: number;
 }
 
+export interface ICategoryResponse extends ICategory {
+  _id: string;
+}
+
 export interface IFixedExpense {
   name: string;
   amount: number;
@@ -35,18 +41,30 @@ export interface ITransaction {
 }
 
 export type GetTransactionOptions = {
-  vendor?: string;
-  category?: string;
-  amountRange?: number[];
-  from?: string;
-  to?: string;
-  max?: number;
+  [key: string]: string | number;
+  vendor: string;
+  category: string;
+  moreThan: number;
+  lessThan: number;
+  after: string;
+  before: string;
+  period: string;
+  max: number;
 };
 
-export interface CoinResponse {
+export interface MultiTransactionResponse extends CoinResponse<ITransaction[]> {
+  total: number;
+  options: GetTransactionOptions;
+}
+
+export type GetCategoryOptions = {
+  period: string;
+};
+
+export interface CoinResponse<T> {
   token?: string;
-  data?: any;
   error?: CoinError;
+  data: T;
 }
 
 export interface CoinError {
@@ -58,4 +76,10 @@ export interface CoinClientOptions {
   url?: string;
   token?: string | null;
   opts: AxiosRequestConfig;
+}
+
+export enum PeriodOptions {
+  Day = 'In the last 24 hours',
+  Week = 'In the last week',
+  Month = 'In the last month'
 }

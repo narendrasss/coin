@@ -6,7 +6,8 @@ import {
   IFixedExpense,
   ITransaction,
   GetTransactionOptions,
-  CoinResponse
+  CoinResponse,
+  MultiTransactionResponse
 } from '../types';
 
 const parseError = (res: AxiosResponse): CoinError => {
@@ -16,7 +17,7 @@ const parseError = (res: AxiosResponse): CoinError => {
 };
 
 const api = (client: AxiosInstance) => {
-  function get<T>(url: string, opts?: any): Promise<T> {
+  function get<T>(url: string, opts?: Partial<GetTransactionOptions>): Promise<CoinResponse<T>> {
     const token = localStorage.getItem('token');
     if (!token) return new Promise((_, reject) => reject('Please login.'));
 
@@ -27,12 +28,12 @@ const api = (client: AxiosInstance) => {
     return new Promise((resolve, reject) => {
       client
         .get(url, finalOpts)
-        .then(res => resolve(res.data.data))
+        .then(res => resolve(res.data))
         .catch(err => reject(parseError(err.response)));
     });
   }
 
-  function post<T>(url: string, opts?: T): Promise<T> {
+  function post<T>(url: string, opts?: T): Promise<CoinResponse<T>> {
     const token = localStorage.getItem('token');
     if (!token) return new Promise((_, reject) => reject('Please login.'));
 
@@ -46,7 +47,7 @@ const api = (client: AxiosInstance) => {
     });
   }
 
-  function put<T>(url: string, opts?: Partial<T>): Promise<T> {
+  function put<T>(url: string, opts?: Partial<T>): Promise<CoinResponse<T>> {
     const token = localStorage.getItem('token');
     if (!token) return new Promise((_, reject) => reject('Please login.'));
 
@@ -59,7 +60,7 @@ const api = (client: AxiosInstance) => {
     });
   }
 
-  function del<T>(url: string): Promise<T> {
+  function del<T>(url: string): Promise<CoinResponse<T>> {
     const token = localStorage.getItem('token');
     if (!token) return new Promise((_, reject) => reject('Please login.'));
 
@@ -74,7 +75,7 @@ const api = (client: AxiosInstance) => {
 
   return {
     register(opts: Partial<IUser>) {
-      return new Promise<CoinResponse>((resolve, reject) => {
+      return new Promise<CoinResponse<{}>>((resolve, reject) => {
         client
           .post('/register', opts)
           .then(res => (console.log(res), resolve(res.data)))
@@ -82,7 +83,7 @@ const api = (client: AxiosInstance) => {
       });
     },
     login(email: string, password: string) {
-      return new Promise<CoinResponse>((resolve, reject) => {
+      return new Promise<CoinResponse<{}>>((resolve, reject) => {
         client
           .post('/login', { email, password })
           .then(res => resolve(res.data))
@@ -135,8 +136,9 @@ const api = (client: AxiosInstance) => {
       getOne(id: string) {
         return get<ITransaction>(`/api/tr/${id}`);
       },
-      getAll(opts: GetTransactionOptions) {
-        return get<ITransaction[]>('/api/tr', opts);
+      getAll(opts?: any) {
+        const url = opts ? getUrl(opts) : '/api/tr';
+        return get<ITransaction[]>(url) as Promise<MultiTransactionResponse>;
       },
       create(opts: ITransaction) {
         return post<ITransaction>('/api/tr', opts);
@@ -146,9 +148,24 @@ const api = (client: AxiosInstance) => {
       },
       del(id: string) {
         return del<ITransaction>(`/api/tr/${id}`);
+      },
+      vendors() {
+        return get<string[]>('/api/tr/info/vendors');
       }
     }
   };
+};
+
+const getUrl = (opts: Partial<GetTransactionOptions>) => {
+  let url = '/api/tr?';
+  for (const [key, val] of Object.entries(opts)) {
+    let toAdd = val;
+    if (typeof val === 'string') {
+      toAdd = encodeURI(val);
+    }
+    url = url.concat(`${key}=${toAdd}`, '&');
+  }
+  return url;
 };
 
 export default (baseURL: string = 'http://localhost:3001', opts?: AxiosRequestConfig) =>

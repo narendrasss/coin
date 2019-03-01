@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import coin from '../../../../client';
 import { ICategory, CoinError } from '../../../../types';
 import Summary from './Summary';
-import { Spinner } from '../../../general';
 
 const client = coin();
 
@@ -29,8 +28,8 @@ class SummaryContainer extends Component<{}, State> {
   private async _loadContent() {
     try {
       await this.setState({ loading: true });
-      const categories = await client.category.getAll();
-      this.setState({ loading: false, categories });
+      const res = await client.category.getAll();
+      this.setState({ loading: false, categories: res.data });
     } catch (e) {
       this.setState({ loading: false, errors: e.error });
     }

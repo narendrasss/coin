@@ -6,6 +6,7 @@ import coin from '../../../client';
 import Loading from '../Loading/Loading';
 import GoalHeader from './GoalHeader/GoalHeader';
 import SummaryContainer from './Summary/SummaryContainer';
+import ExpenseCalculatorContainer from './ExpenseCalculator/ExpenseCalculatorContainer';
 
 const client = coin();
 
@@ -14,11 +15,10 @@ interface DashboardState extends IUser {
   errors?: CoinError;
 }
 
-const defaultUser: IUser = {
+const defaultUser = {
   email: '',
   name: '',
   income: 0,
-  budget: 0,
   goal: {
     goal: '',
     funds: 0,
@@ -26,18 +26,19 @@ const defaultUser: IUser = {
     payment: 0,
     due: ''
   }
-};
+} as IUser;
 
 class Dashboard extends Component<RouteComponentProps, DashboardState> {
   state = { ...defaultUser, loading: false };
 
   public render() {
-    const { budget, goal, loading } = this.state;
+    const { goal, loading } = this.state;
     if (loading) return <Loading />;
     return (
-      <MainContainer style={{ paddingLeft: 0, paddingRight: 0 }}>
+      <MainContainer style={{ padding: '6rem 0' }}>
         <GoalHeader funds={goal.funds!} amount={goal.amount} />
         <SummaryContainer />
+        <ExpenseCalculatorContainer />
       </MainContainer>
     );
   }
@@ -49,7 +50,7 @@ class Dashboard extends Component<RouteComponentProps, DashboardState> {
     await this.setState({ loading: true });
     try {
       const res = await client.user.me();
-      this.setState({ ...res, loading: false });
+      this.setState({ ...res.data, loading: false });
     } catch (e) {
       this.setState({ loading: false, errors: e.error });
     }

@@ -1,0 +1,36 @@
+.container {
+  padding: 5rem 3rem 0 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.form {
+  width: 70%;
+}
+
+.title {
+  font-size: 1em;
+  width: 100%;
+  margin-bottom: 0.8rem;
+}
+
+.calculator {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.result {
+  width: 6rem;
+  height: 6rem;
+  font-size: 1rem;
+  border-radius: 50%;
+  background: #e8e8e859;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
