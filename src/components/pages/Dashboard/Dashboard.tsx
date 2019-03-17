@@ -36,7 +36,7 @@ class Dashboard extends Component<RouteComponentProps, DashboardState> {
     if (loading) return <Loading />;
     return (
       <MainContainer style={{ padding: '6rem 0' }}>
-        <GoalHeader funds={goal.funds!} amount={goal.amount} />
+        <GoalHeader funds={goal.funds} amount={goal.amount} />
         <SummaryContainer />
         <ExpenseCalculatorContainer />
       </MainContainer>

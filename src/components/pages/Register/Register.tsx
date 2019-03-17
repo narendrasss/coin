@@ -227,7 +227,7 @@ class Register extends React.Component<RouteComponentProps, Partial<RegisterStat
     await this.setState({ loading: true });
     const { info, income, goal } = this.state;
     try {
-      const res = await client.register({ ...info, ...income, goal });
+      const res = await client.register({ ...info, ...income, goal: { ...goal, funds: 0 } });
       localStorage.setItem('token', res.token!);
 
       const { fixedExpenses } = this.state;

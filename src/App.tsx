@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { Router, navigate } from '@reach/router';
 import { IUser, ICategory, IFixedExpense } from './types';
 import {
@@ -7,7 +7,9 @@ import {
   Login,
   Register,
   Dashboard,
-  RedirectContainer
+  RedirectContainer,
+  Categories,
+  Category
 } from './components/pages';
 import { initIcons } from './utils/icons';
 
@@ -22,36 +24,7 @@ type State = {
   fixedExpenseDue: string;
 };
 
-class App extends React.Component<{}, State> {
-  handleExpenseNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ fixedExpense: e.target.value });
-  };
-
-  handleExpenseAmountChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ fixedExpenseAmount: e.target.value });
-  };
-
-  handleExpenseDueChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ fixedExpenseDue: e.target.value });
-  };
-
-  handleExpenseSubmit = () => {
-    const { fixedExpense, fixedExpenseAmount, fixedExpenseDue } = this.state;
-    const newExpense = {
-      name: fixedExpense,
-      amount: +fixedExpenseAmount,
-      due: new Date(fixedExpenseDue)
-    };
-    this.setState(
-      prevState => {
-        fixedExpenses: prevState.fixedExpenses
-          ? prevState.fixedExpenses.push(newExpense)
-          : [newExpense];
-      },
-      () => navigate('/budget')
-    );
-  };
-
+class App extends Component<{}, State> {
   render() {
     return (
       <Router>
@@ -59,6 +32,8 @@ class App extends React.Component<{}, State> {
         <Login path="/login" />
         <Register path="/register/*" />
         <Dashboard path="/home" />
+        <Categories path="/categories" />
+        <Category path="/categories/:id" />
       </Router>
     );
   }

@@ -29,10 +29,19 @@ class SummaryContainer extends Component<{}, State> {
     try {
       await this.setState({ loading: true });
       const res = await client.category.getAll();
-      this.setState({ loading: false, categories: res.data });
+      this.setState({ loading: false, categories: this._sortByExpense(res.data) });
     } catch (e) {
       this.setState({ loading: false, errors: e.error });
     }
+  }
+
+  private _sortByExpense(arr: ICategory[]) {
+    return arr.sort((a, b) => {
+      const ratioA = a.spent / a.budget;
+      const ratioB = b.spent / b.budget;
+      if (ratioA === ratioB) return 0;
+      return ratioA > ratioB ? -1 : 1;
+    });
   }
 }
 

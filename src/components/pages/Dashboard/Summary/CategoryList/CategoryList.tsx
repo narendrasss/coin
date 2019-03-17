@@ -14,7 +14,7 @@ const CategoryList: FC<Props> = ({ categories }) => {
   return (
     <div className={style.container}>
       {categories.map((ctg, index) => (
-        <Link key={ctg.name} to={`/ctg/${ctg.name.toLowerCase()}`}>
+        <Link key={ctg._id} to={`/categories/${ctg._id}`}>
           <CategoryListItem color={COLORS[index]} {...ctg} />
         </Link>
       ))}

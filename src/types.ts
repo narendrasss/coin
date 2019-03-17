@@ -1,8 +1,10 @@
 import { AxiosRequestConfig } from 'axios';
 
-export type Model = IUser | ICategory | IFixedExpense | ITransaction;
+export interface Model {
+  _id?: string;
+}
 
-export interface IUser {
+export interface IUser extends Model {
   email: string;
   password?: string;
   name: string;
@@ -10,31 +12,27 @@ export interface IUser {
   budget: number;
   goal: {
     goal: string;
-    funds?: number;
+    funds: number;
     amount: number;
     payment: number;
     due: string;
   };
 }
 
-export interface ICategory {
+export interface ICategory extends Model {
   name: string;
   budget: number;
   spent: number;
 }
 
-export interface ICategoryResponse extends ICategory {
-  _id: string;
-}
-
-export interface IFixedExpense {
+export interface IFixedExpense extends Model {
   name: string;
   amount: number;
   due?: Date;
   payableTo?: string;
 }
 
-export interface ITransaction {
+export interface ITransaction extends Model {
   vendor: string;
   amount: number;
   date: Date;

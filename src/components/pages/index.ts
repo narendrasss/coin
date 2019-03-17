@@ -4,3 +4,5 @@ export { default as Login } from './Login/Login';
 export { default as Register } from './Register/Register';
 export { default as Dashboard } from './Dashboard/Dashboard';
 export { default as RedirectContainer } from './RedirectContainer';
+export { default as Categories } from './Categories/Categories';
+export { default as Category } from './Category/Category';

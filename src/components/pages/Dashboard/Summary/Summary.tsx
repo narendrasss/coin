@@ -36,7 +36,7 @@ const Summary: FC<Props> = ({ categories, loading, errors }) => {
             </PieChart>
             <CategoryList categories={categories} />
             <footer className={style.footer}>
-              <LinkButton to="/">See all categories</LinkButton>
+              <LinkButton to="/categories">See all categories</LinkButton>
               <LinkButton to="/">Add new expense</LinkButton>
             </footer>
           </>
