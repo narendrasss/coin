@@ -37,7 +37,7 @@ const Summary: FC<Props> = ({ categories, loading, errors }) => {
             <CategoryList categories={categories} />
             <footer className={style.footer}>
               <LinkButton to="/categories">See all categories</LinkButton>
-              <LinkButton to="/">Add new expense</LinkButton>
+              <LinkButton to="/new-expense">Add new expense</LinkButton>
             </footer>
           </>
         );

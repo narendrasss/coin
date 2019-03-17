@@ -37,7 +37,7 @@ const RegisterIncome: React.FC<RegisterIncomeProps> = ({
         value={income}
         onChange={handleTextChange}
         type="number"
-        opts={{ required: true }}
+        required
       />
       <p>Do you have any fixed expenses per month? If so, what are they?</p>
       <div>

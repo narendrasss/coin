@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './CategoryCard.module.scss';
 
 type Props = {
   name: string;
   index: number;
-  onAdd: (e: React.MouseEvent, name?: string, amount?: number) => void;
+  onAdd: (e: React.MouseEvent, name: string, amount?: number) => void;
   onDelete: (e: React.MouseEvent, name: string) => void;
   clicked: boolean;
 };
@@ -19,10 +19,10 @@ const CategoryCard: React.FC<Props> = ({ name, onAdd, onDelete, clicked }) => {
   };
 
   return (
-    <div onClick={handleClick} className={clicked ? style.active : style.container}>
+    <li onClick={handleClick} className={clicked ? style.active : style.container}>
       {name}
       <FontAwesomeIcon icon={clicked ? 'minus' : 'plus'} />
-    </div>
+    </li>
   );
 };
 

@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import style from '../Register.module.scss';
-import localStyle from './RegisterCategory.module.scss';
-import { LinkButton, BackButton, AddButton } from '../../../buttons';
-import { ICategory } from '../../../../types';
-import { NameAmountInput } from '../../../form';
-import { CATEGORY_OPTIONS } from '../../../../utils/constants';
-import CategoryCard from './CategoryCard/CategoryCard';
-import { Tip } from '../../../general';
+import style from './Register.module.scss';
+import { LinkButton, BackButton, AddButton } from '../../buttons';
+import { ICategory } from '../../../types';
+import { NameAmountInput } from '../../form';
+import { CATEGORY_OPTIONS } from '../../../utils/constants';
+import { Tip } from '../../general';
+import CategorySelectionList from '../../general/CategorySelectionList/CategorySelectionList';
 
 interface RegisterCategoryProps extends RouteComponentProps {
   categories: ICategory[];
@@ -30,18 +29,12 @@ const RegisterCategory: React.FC<RegisterCategoryProps> = ({
     </header>
     <form className={style.form}>
       <p>What categories would you like to include in your budget?</p>
-      <div className={localStyle.cards}>
-        {CATEGORY_OPTIONS.map((name, index) => (
-          <CategoryCard
-            key={['cc', index].join('')}
-            name={name}
-            index={index}
-            onAdd={handleCategoryAdd}
-            onDelete={handleCategoryDelete}
-            clicked={Boolean(categories.find(ctg => ctg.name === name))}
-          />
-        ))}
-      </div>
+      <CategorySelectionList
+        categories={CATEGORY_OPTIONS}
+        onAdd={handleCategoryAdd}
+        onDelete={handleCategoryDelete}
+        getClicked={name => Boolean(categories.find(ctg => ctg.name === name))}
+      />
       <div>
         {categories.map(({ name, budget }, index) => (
           <NameAmountInput

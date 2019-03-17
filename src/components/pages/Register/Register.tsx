@@ -3,7 +3,7 @@ import { RouteComponentProps, Router, navigate } from '@reach/router';
 import { IFixedExpense, ICategory } from '../../../types';
 import RegisterInfo from './RegisterInfo';
 import RegisterIncome from './RegisterIncome';
-import RegisterCategory from './RegisterCategory/RegisterCategory';
+import RegisterCategory from './RegisterCategory';
 import RegisterGoal from './RegisterGoal';
 import moment from 'moment';
 import coin from '../../../client';

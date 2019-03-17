@@ -40,7 +40,7 @@ class Login extends React.Component<RouteComponentProps, State> {
             value={email}
             onChange={this._handleEmailChange}
             type="email"
-            opts={{ required: true }}
+            required
           />
           <TextInput
             label="Password"
@@ -48,7 +48,7 @@ class Login extends React.Component<RouteComponentProps, State> {
             value={password}
             onChange={this._handlePasswordChange}
             type="password"
-            opts={{ required: true }}
+            required
           />
           {error ? <FetchError code={error.code} /> : null}
           <SubmitButton>{loading ? <FontAwesomeIcon icon="spinner" /> : 'Login'}</SubmitButton>

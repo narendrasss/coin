@@ -1,14 +1,16 @@
 import * as React from 'react';
-import style from './TextInput.module.scss';
+import styles from './TextInput.module.scss';
 
-interface TextInputProps {
+type BaseProps = {
   label: string;
   name: string;
   value: string | number;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   type?: string;
-  opts?: any;
-}
+  style?: React.CSSProperties;
+};
+
+type TextInputProps = BaseProps & React.InputHTMLAttributes<HTMLInputElement>;
 
 const TextInput: React.FC<TextInputProps> = ({
   label,
@@ -16,17 +18,18 @@ const TextInput: React.FC<TextInputProps> = ({
   value,
   type = 'text',
   onChange,
-  opts
+  style,
+  ...rest
 }) => (
-  <label htmlFor={name}>
+  <label style={style} htmlFor={name}>
     {label}
     <input
-      className={style.input}
+      className={styles.input}
       name={name}
       value={value}
       type={type}
       onChange={e => (e.preventDefault(), onChange(e))}
-      {...opts}
+      {...rest}
     />
   </label>
 );

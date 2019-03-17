@@ -12,6 +12,7 @@ import {
   Category
 } from './components/pages';
 import { initIcons } from './utils/icons';
+import AddNewExpense from './components/pages/AddNewExpense/AddNewExpense';
 
 initIcons();
 
@@ -34,6 +35,7 @@ class App extends Component<{}, State> {
         <Dashboard path="/home" />
         <Categories path="/categories" />
         <Category path="/categories/:id" />
+        <AddNewExpense path="/new-expense" />
       </Router>
     );
   }

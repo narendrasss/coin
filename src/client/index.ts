@@ -140,7 +140,7 @@ const api = (client: AxiosInstance) => {
         const url = opts ? getUrl(opts) : '/api/tr';
         return get<ITransaction[]>(url) as Promise<MultiTransactionResponse>;
       },
-      create(opts: ITransaction) {
+      create(opts: ITransaction & { category: string }) {
         return post<ITransaction>('/api/tr', opts);
       },
       update(id: string, opts: Partial<ITransaction>) {

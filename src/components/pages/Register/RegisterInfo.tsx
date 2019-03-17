@@ -52,7 +52,7 @@ class RegisterInfo extends React.Component<RegisterInfoProps, State> {
             value={name}
             name="name"
             onChange={this._handleTextChange}
-            opts={{ required: true }}
+            required
           />
           <TextInput
             label="Email"
@@ -60,7 +60,7 @@ class RegisterInfo extends React.Component<RegisterInfoProps, State> {
             name="email"
             onChange={this._handleEmailChange}
             type="email"
-            opts={{ required: true }}
+            required
           />
           <TextInput
             label="Password"
@@ -68,7 +68,7 @@ class RegisterInfo extends React.Component<RegisterInfoProps, State> {
             name="password"
             onChange={this._handleTextChange}
             type="password"
-            opts={{ required: true }}
+            required
           />
           <TextInput
             label="Confirm password"
@@ -76,7 +76,7 @@ class RegisterInfo extends React.Component<RegisterInfoProps, State> {
             name="passwordConfirm"
             onChange={this._handleTextChange}
             type="password"
-            opts={{ required: true }}
+            required
           />
           {errors && errors.message ? <Error>{errors.message}</Error> : null}
           {success ? (
