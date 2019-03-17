@@ -1,0 +1,25 @@
+.wrapper {
+  list-style: none;
+}
+
+.item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #b4bad0b2;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vendor {
+  text-transform: capitalize;
+}
+
+.date {
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #b4bad0;
+  opacity: 0.7;
+}
