@@ -33,6 +33,7 @@ class App extends Component<{}, State> {
         <Login path="/login" />
         <Register path="/register/*" />
         <Dashboard path="/home" />
+        <Budget path="/budget" />
         <Categories path="/categories" />
         <Category path="/categories/:id" />
         <AddNewExpense path="/new-expense" />

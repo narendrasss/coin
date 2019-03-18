@@ -1,34 +1,44 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { ICategory, IFixedExpense, IUser } from '../../../types';
+import { ICategory, IFixedExpense, IUser, CoinError } from '../../../types';
 import { LinkButton, BackButton } from '../../buttons';
 import FixedExpenseList from './FixedExpenseList/FixedExpenseList';
 import style from './Budget.module.scss';
 import { PieChart, GoalTracker } from '../../general';
 import Moment from 'moment';
+import MainContainer from '../MainContainer/MainContainer';
+import Loading from '../Loading/Loading';
+import coin from '../../../client';
 
-type Props = {
+const client = coin();
+
+type State = {
   user: IUser;
   categories: ICategory[];
   fixedExpenses: IFixedExpense[];
+  loading: boolean;
+  errors?: CoinError;
 };
 
-class Budget extends React.Component<Props & RouteComponentProps, {}> {
-  private getExpenseTotal() {
-    const { fixedExpenses } = this.props;
-    return fixedExpenses.reduce((acc, fe) => acc + fe.amount, 0);
-  }
+class Budget extends React.Component<RouteComponentProps, {}> {
+  state = {
+    user: {} as IUser,
+    categories: [] as ICategory[],
+    fixedExpenses: [] as IFixedExpense[],
+    loading: true
+  } as State;
 
   public render() {
-    const { income } = this.props.user;
-    const { funds, amount, due } = this.props.user.goal;
+    if (this.state.loading) return <Loading />;
+    const { income } = this.state.user;
+    const { funds, amount, due } = this.state.user.goal;
     return (
-      <div className={style.container}>
+      <MainContainer>
         <BackButton to="/" />
         <header className={style.header}>
           <h1 style={{ fontWeight: 'normal' }}>My Budget</h1>
           <div className={style.budgetInfo}>
-            <p className={style.budget}>${(income - this.getExpenseTotal()).toLocaleString()}</p>
+            <p className={style.budget}>${(income - this._getExpenseTotal()).toLocaleString()}</p>
             <p className={style.incomeCaption}>Available to spend</p>
           </div>
         </header>
@@ -43,12 +53,12 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
           <LinkButton
             icon="angle-right"
             style={{ marginBottom: '0.5rem' }}
-            to="./add-monthly-expense"
+            to="/new-monthly-expense"
           >
             Add new monthly expense
           </LinkButton>
-          <div style={{ display: 'flex' }}>
-            <LinkButton icon="angle-right" style={{ marginRight: '0.5rem' }} to="/">
+          <div className={style.btnContainer}>
+            <LinkButton icon="angle-right" to="/">
               Modify my goal
             </LinkButton>
             <LinkButton icon="angle-right" to="/">
@@ -59,15 +69,37 @@ class Budget extends React.Component<Props & RouteComponentProps, {}> {
         <h3 style={{ marginBottom: 0 }} className={style.subtitle}>
           Fixed expenses
         </h3>
-        <FixedExpenseList expenses={this.props.fixedExpenses} />
+        <FixedExpenseList expenses={this.state.fixedExpenses} />
         <h3 className={style.subtitle}>Goal</h3>
         <div className={style.goal}>
           <p className={style.goalTitle}>Savings</p>
           <p className={style.goalDue}>Due: {Moment(due).format('MMMM YYYY')}</p>
         </div>
         <GoalTracker funds={funds!} amount={amount!} />
-      </div>
+      </MainContainer>
     );
+  }
+
+  public async componentDidMount() {
+    await this.setState({ loading: true });
+    try {
+      const user = await client.user.me();
+      const categories = await client.category.getAll();
+      const expenses = await client.fixedExpenses.getAll();
+      this.setState({
+        loading: false,
+        user: user.data,
+        categories: categories.data,
+        fixedExpenses: expenses.data
+      });
+    } catch (err) {
+      this.setState({ loading: false, errors: err });
+    }
+  }
+
+  private _getExpenseTotal() {
+    const { fixedExpenses } = this.state;
+    return fixedExpenses.reduce((acc, fe) => acc + fe.amount, 0);
   }
 }
 

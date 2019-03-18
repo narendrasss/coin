@@ -5,7 +5,7 @@ import MainContainer from '../MainContainer/MainContainer';
 import { BackButton, SubmitButton } from '../../buttons';
 import { TextInput } from '../../form';
 import coin from '../../../client';
-import { ICategory, CoinError } from '../../../types';
+import { CoinError } from '../../../types';
 import Loading from '../Loading/Loading';
 import CategorySelectionList from '../../general/CategorySelectionList/CategorySelectionList';
 
@@ -94,10 +94,10 @@ class AddNewExpense extends Component<RouteComponentProps> {
 
   _handleSubmit: React.FormEventHandler = e => {
     e.preventDefault();
-    const { vendor, amount, date = moment().toISOString(), category } = this.state;
+    const { vendor, amount, date, category } = this.state;
     this.setState({ loading: true }, () => {
       client.transactions
-        .create({ vendor, amount, date: new Date(date), category })
+        .create({ vendor, amount, date: moment(date).toDate(), category })
         .then(() => {
           this.setState({ loading: false }, () => navigate('/home'));
         })
