@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, navigate } from '@reach/router';
+import { Router } from '@reach/router';
 import { IUser, ICategory, IFixedExpense } from './types';
 import {
   Budget,
@@ -12,7 +12,6 @@ import {
   Category
 } from './components/pages';
 import { initIcons } from './utils/icons';
-import AddNewExpense from './components/pages/AddNewExpense/AddNewExpense';
 
 initIcons();
 
@@ -36,7 +35,6 @@ class App extends Component<{}, State> {
         <Budget path="/budget" />
         <Categories path="/categories" />
         <Category path="/categories/:id" />
-        <AddNewExpense path="/new-expense" />
       </Router>
     );
   }
